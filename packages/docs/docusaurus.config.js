@@ -1,79 +1,75 @@
-const path = require('path')
+const path = require("path");
 
 module.exports = {
-  title: 'urx',
-  tagline: 'The Tiniest Rective State Management Library',
-  url: 'https:urx.virtuoso.dev',
-  baseUrl: '/',
-  onBrokenLinks: 'throw',
-  favicon: 'img/favicon.ico',
-  organizationName: 'petyosi', // Usually your GitHub org/user name.
-  projectName: 'urx', // Usually your repo name.
+  title: "urx",
+  tagline: "The Tiniest Rective State Management Library",
+  url: "https:urx.virtuoso.dev",
+  baseUrl: "/",
+  onBrokenLinks: "throw",
+  favicon: "img/favicon.ico",
+  organizationName: "petyosi", // Usually your GitHub org/user name.
+  projectName: "urx", // Usually your repo name.
   themeConfig: {
     navbar: {
-      title: '',
+      title: "",
       logo: {
-        alt: 'urx Logo',
-        src: 'img/urx-logo.png',
+        alt: "urx Logo",
+        src: "img/urx-logo.png",
       },
       items: [
         {
-          to: 'docs/',
-          activeBasePath: 'docs',
-          label: 'Documentation',
-          position: 'left',
+          to: "docs/",
+          activeBasePath: "docs",
+          label: "Documentation",
+          position: "left",
         },
-        { to: 'blog', label: 'Blog', position: 'left' },
+        { to: "blog", label: "Blog", position: "left" },
         {
-          href: 'https://github.com/petyosi/urx',
-          label: 'GitHub',
-          position: 'right',
+          href: "https://github.com/petyosi/urx",
+          label: "GitHub",
+          position: "right",
         },
       ],
     },
     footer: {
-      style: 'dark',
+      style: "dark",
       links: [
         {
-          title: 'Docs',
+          title: "Docs",
           items: [
             {
-              label: 'Style Guide',
-              to: 'docs/',
-            },
-            {
-              label: 'Second Doc',
-              to: 'docs/doc2/',
+              label: "API Reference",
+              to: "docs/modules/_actions_",
             },
           ],
         },
         {
-          title: 'Community',
+          title: "Community",
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: "Stack Overflow",
+              href: "https://stackoverflow.com/questions/tagged/docusaurus",
             },
             {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
+              label: "Discord",
+              href: "https://discordapp.com/invite/docusaurus",
             },
             {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
+              label: "Twitter",
+              href: "https://twitter.com/docusaurus",
             },
           ],
         },
         {
-          title: 'More',
+          title: "More",
           items: [
             {
-              label: 'Blog',
-              to: 'blog',
+              label: "Blog",
+              to: "blog",
             },
             {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              label: "GitHub",
+              href: "https://github.com/facebook/docusaurus",
             },
           ],
         },
@@ -83,45 +79,50 @@ module.exports = {
   },
   presets: [
     [
-      '@docusaurus/preset-classic',
+      "@docusaurus/preset-classic",
       {
         docs: {
           // It is recommended to set document id as docs home page (`docs/` path).
-          homePageId: 'README',
-          sidebarPath: require.resolve('./sidebars-with-prose.js'),
+          homePageId: "README",
+          sidebarPath: require.resolve("./sidebars-with-prose.js"),
           // Please change this to your repo.
-          editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+          editUrl:
+            "https://github.com/facebook/docusaurus/edit/master/website/",
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
-          editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/blog/',
+          editUrl:
+            "https://github.com/facebook/docusaurus/edit/master/website/blog/",
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: require.resolve("./src/css/custom.css"),
         },
       },
     ],
   ],
   plugins: [
     [
-      'docusaurus-plugin-typedoc',
+      "docusaurus-plugin-typedoc",
 
       // plugin options
       {
         // list of input files relative to docusaurus.config.js
-        inputFiles: ['../src/', '../README.md'],
+        inputFiles: ["../urx/src/"],
 
         // docs directory (defaults to `docs`)
-        out: 'docs/',
+        out: "docs/",
 
         // Skip updating of sidebars.json (defaults to `false`).
         skipSidebar: false,
 
         // Pass in any additional TypeDoc options `(see typedoc --help)`.
-        name: 'Documentation',
+        name: "Documentation",
       },
     ],
   ],
-  scripts: ['https://unpkg.com/lz-string@1.4.4/libs/lz-string.min.js', '/js/code-sandbox.js'],
-}
+  scripts: [
+    "https://unpkg.com/lz-string@1.4.4/libs/lz-string.min.js",
+    "/js/code-sandbox.js",
+  ],
+};
