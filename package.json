@@ -1,0 +1,8 @@
+{
+  "name": "root",
+  "private": true,
+  "devDependencies": {
+    "eslint-config-react-app": "^5.2.1",
+    "lerna": "^3.22.1"
+  }
+}
