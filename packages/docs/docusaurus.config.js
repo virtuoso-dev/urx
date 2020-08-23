@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
   title: "urx",
   tagline: "The Tiniest Rective State Management Library",
-  url: "https:urx.virtuoso.dev",
+  url: "https://urx.virtuoso.dev",
   baseUrl: "/",
   onBrokenLinks: "throw",
   favicon: "img/favicon.ico",
