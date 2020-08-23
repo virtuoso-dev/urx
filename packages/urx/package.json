@@ -1,6 +1,6 @@
 {
   "name": "urx",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "author": "Petyo Ivanov",
   "main": "dist/index.js",
@@ -16,7 +16,6 @@
     "lint": "tsdx lint src test",
     "prepare": "tsdx build"
   },
-  "peerDependencies": {},
   "husky": {
     "hooks": {
       "pre-commit": "tsdx lint src test"
