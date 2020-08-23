@@ -27,21 +27,21 @@ jobs:
           CI: true
 
       - name: Bootstrap Lerna
-        run: lerna bootstrap
+        run: npx lerna bootstrap
         env:
           CI: true
 
       - name: Lint
-        run: lerna run lint
+        run: npx lerna run lint
         env:
           CI: true
 
       - name: Test
-        run: lerna run test -- --ci --coverage --maxWorkers=2
+        run: npx lerna run test -- --ci --coverage --maxWorkers=2
         env:
           CI: true
 
       - name: Build
-        run: lerna run build
+        run: npx lerna run build
         env:
           CI: true
