@@ -2,6 +2,7 @@ import * as React from 'react'
 import {
   ComponentType,
   createContext,
+  createElement,
   forwardRef,
   ForwardRefExoticComponent,
   RefAttributes,
@@ -11,17 +12,17 @@ import {
   useState,
 } from 'react'
 import {
-  AnyEngine,
+  AnySystemSpec,
   reset,
   curry1to0,
   curry2to1,
   Emitter,
-  EngineSystem,
+  SR,
   eventHandler,
   getValue,
   publish,
   Publisher,
-  run,
+  init,
   StatefulStream,
   Stream,
   subscribe,
@@ -53,47 +54,39 @@ function omit<O extends Dict<any>, K extends readonly string[]>(keys: K, obj: O)
 
 export type Observable<T> = Emitter<T> | Publisher<T>
 
-export interface EnginePropsMap<E extends AnyEngine> {
-  required?: {
-    [propName: string]: keyof EngineSystem<E>
-  }
-  optional?: {
-    [propName: string]: keyof EngineSystem<E>
-  }
-  methods?: {
-    [propName: string]: keyof EngineSystem<E>
-  }
-  events?: {
-    [propName: string]: keyof EngineSystem<E>
-  }
-  ssrProps?: (keyof EngineSystem<E>)[]
+export interface SystemPropsMap<SS extends AnySystemSpec, K = keyof SR<SS>, D = { [key: string]: K }> {
+  required?: D
+  optional?: D
+  methods?: D
+  events?: D
+  ssrProps?: K[]
 }
 
-export type PropsFromPropMap<E extends AnyEngine, M extends EnginePropsMap<E>> = {
+export type PropsFromPropMap<E extends AnySystemSpec, M extends SystemPropsMap<E>> = {
   [K in Extract<keyof M['required'], string>]: M['required'][K] extends string
-    ? EngineSystem<E>[M['required'][K]] extends Observable<infer R>
+    ? SR<E>[M['required'][K]] extends Observable<infer R>
       ? R
       : never
     : never
 } &
   {
     [K in Extract<keyof M['optional'], string>]?: M['optional'][K] extends string
-      ? EngineSystem<E>[M['optional'][K]] extends Observable<infer R>
+      ? SR<E>[M['optional'][K]] extends Observable<infer R>
         ? R
         : never
       : never
   } &
   {
     [K in Extract<keyof M['events'], string>]?: M['events'][K] extends string
-      ? EngineSystem<E>[M['events'][K]] extends Observable<infer R>
+      ? SR<E>[M['events'][K]] extends Observable<infer R>
         ? (value: R) => void
         : never
       : never
   }
 
-export type MethodsFromPropMap<E extends AnyEngine, M extends EnginePropsMap<E>> = {
+export type MethodsFromPropMap<E extends AnySystemSpec, M extends SystemPropsMap<E>> = {
   [K in Extract<keyof M['methods'], string>]: M['methods'][K] extends string
-    ? EngineSystem<E>[M['methods'][K]] extends Observable<infer R>
+    ? SR<E>[M['methods'][K]] extends Observable<infer R>
       ? (value: R) => void
       : never
     : never
@@ -101,24 +94,23 @@ export type MethodsFromPropMap<E extends AnyEngine, M extends EnginePropsMap<E>>
 
 export type RefHandle<T> = T extends ForwardRefExoticComponent<RefAttributes<infer T2>> ? T2 : never
 
-export function engineToComponent<
-  E extends AnyEngine,
-  M extends EnginePropsMap<E>,
-  S extends EngineSystem<E>,
-  R extends ComponentType<any>
->(engine: E, map: M, Root?: R) {
+export function systemToComponent<SS extends AnySystemSpec, M extends SystemPropsMap<SS>, S extends SR<SS>, R extends ComponentType<any>>(
+  systemSpec: SS,
+  map: M,
+  Root?: R
+) {
   const requiredPropNames = Object.keys(map.required || {})
   const optionalPropNames = Object.keys(map.optional || {})
   const methodNames = Object.keys(map.methods || {})
   const eventNames = Object.keys(map.events || {})
-  const Context = createContext<EngineSystem<E>>(({} as unknown) as any)
+  const Context = createContext<SR<SS>>(({} as unknown) as any)
 
-  type CompProps = PropsFromPropMap<E, M> & (R extends ComponentType<infer RP> ? RP : {})
+  type CompProps = PropsFromPropMap<SS, M> & (R extends ComponentType<infer RP> ? RP : {})
 
-  type CompMethods = MethodsFromPropMap<E, M>
+  type CompMethods = MethodsFromPropMap<SS, M>
 
   const Component = forwardRef<CompMethods, CompProps>(({ children, ...props }, ref) => {
-    const [system] = useState(curry1to0(run, engine))
+    const [system] = useState(curry1to0(init, systemSpec))
     const [handlers] = useState(() => {
       return eventNames.reduce((handlers, eventName) => {
         handlers[eventName] = eventHandler(system[map.events![eventName]])
@@ -171,10 +163,10 @@ export function engineToComponent<
 
     useImperativeHandle(ref, () => methodDefs)
 
-    return (
-      <Context.Provider value={system}>
-        {Root ? React.createElement(Root, omit([...requiredPropNames, ...optionalPropNames, ...eventNames], props), children) : children}
-      </Context.Provider>
+    return createElement(
+      Context.Provider,
+      { value: system },
+      Root ? createElement(Root, omit([...requiredPropNames, ...optionalPropNames, ...eventNames], props), children) : children
     )
   })
 
@@ -183,7 +175,7 @@ export function engineToComponent<
   }
 
   /**
-   * test comment
+   * Returns the value emitted from the stream.
    */
   const useEmitterValue = <K extends keyof S, V = S[K] extends StatefulStream<infer R> ? R : never>(key: K) => {
     const context = useContext(Context)

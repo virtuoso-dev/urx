@@ -1,3 +1,3 @@
-# urx-react - reactive state management for React Components
+# urx-react - Manage Your React State with urx Streams
 
-urx-react is an urx extension that builds React components from urx engines.
+urx-react is an urx extension that builds React components from urx systems.

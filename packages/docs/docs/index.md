@@ -10,12 +10,13 @@ sidebar_label: "Globals"
 
 ### Modules
 
-* ["actions"](modules/_actions_.md)
-* ["constants"](modules/_constants_.md)
-* ["engine"](modules/_engine_.md)
-* ["index"](modules/_index_.md)
-* ["interfaces"](modules/_interfaces_.md)
-* ["operators"](modules/_operators_.md)
-* ["streams"](modules/_streams_.md)
-* ["transformers"](modules/_transformers_.md)
-* ["utils"](modules/_utils_.md)
+* ["react-urx/src/index"](modules/_react_urx_src_index_.md)
+* ["urx/src/actions"](modules/_urx_src_actions_.md)
+* ["urx/src/constants"](modules/_urx_src_constants_.md)
+* ["urx/src/index"](modules/_urx_src_index_.md)
+* ["urx/src/interfaces"](modules/_urx_src_interfaces_.md)
+* ["urx/src/operators"](modules/_urx_src_operators_.md)
+* ["urx/src/streams"](modules/_urx_src_streams_.md)
+* ["urx/src/system"](modules/_urx_src_system_.md)
+* ["urx/src/transformers"](modules/_urx_src_transformers_.md)
+* ["urx/src/utils"](modules/_urx_src_utils_.md)

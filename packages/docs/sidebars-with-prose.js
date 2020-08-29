@@ -1,9 +1,9 @@
-const typedoc = require("./sidebars").typedoc;
+const typedoc = require('./sidebars').typedoc
 
 module.exports = {
   typedoc: {
-    // Introduction: ['README'],
-    "API Reference": typedoc.Modules,
+    Introduction: ['get_started'],
+    'API Reference': typedoc.Modules,
     Interfaces: typedoc.Interfaces,
   },
-};
+}

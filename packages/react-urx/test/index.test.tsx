@@ -2,10 +2,10 @@ import * as React from 'react'
 import { createRef, FC } from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { act } from 'react-dom/test-utils'
-import { connect, engine, map, pipe, statefulStream, statefulStreamFromEmitter, stream } from 'urx'
-import { engineToComponent, RefHandle } from '../src'
+import { connect, system, map, pipe, statefulStream, statefulStreamFromEmitter, stream } from 'urx'
+import { systemToComponent, RefHandle } from '../src'
 
-describe('components from engines', () => {
+describe('components from system', () => {
   let container: any = null
 
   beforeEach(() => {
@@ -21,13 +21,13 @@ describe('components from engines', () => {
     container = null
   })
 
-  const simpleEngine = () =>
-    engine(() => {
+  const simpleSystem = () =>
+    system(() => {
       const prop = stream<number>()
-      const cell = statefulStream(10)
-      connect(prop, cell)
+      const depot = statefulStream(10)
+      connect(prop, depot)
 
-      return { prop, cell }
+      return { prop, depot }
     })
 
   describe('prop mapping', () => {
@@ -35,14 +35,14 @@ describe('components from engines', () => {
     let Child: any
 
     beforeEach(() => {
-      const e = simpleEngine()
+      const e = simpleSystem()
 
-      const { Component: Comp, useEmitterValue } = engineToComponent(e, {
+      const { Component: Comp, useEmitterValue } = systemToComponent(e, {
         optional: { prop: 'prop' },
       })
 
       Child = () => {
-        const value = useEmitterValue('cell')
+        const value = useEmitterValue('depot')
         return <div>{value}</div>
       }
       Component = Comp
@@ -58,7 +58,7 @@ describe('components from engines', () => {
       expect(container.textContent).toBe('10')
     })
 
-    it('pipes the prop to cell and to the output', () => {
+    it('pipes the prop to depot and to the output', () => {
       act(() => {
         render(
           <Component prop={20}>
@@ -72,14 +72,14 @@ describe('components from engines', () => {
   })
 
   it('supports passing root', () => {
-    const e = simpleEngine()
+    const e = simpleSystem()
 
     const Root: FC = () => {
-      const value = useEmitterValue('cell')
+      const value = useEmitterValue('depot')
       return <div>{value}</div>
     }
 
-    const { Component: Comp, useEmitterValue } = engineToComponent(
+    const { Component: Comp, useEmitterValue } = systemToComponent(
       e,
       {
         optional: { prop: 'prop' },
@@ -95,10 +95,10 @@ describe('components from engines', () => {
   })
 
   it('supports root component with props', () => {
-    const e = simpleEngine()
+    const e = simpleSystem()
 
     const Root: FC<{ rootProp: number }> = ({ rootProp }) => {
-      const value = useEmitterValue('cell')
+      const value = useEmitterValue('depot')
       return (
         <div>
           {rootProp} - {value}
@@ -106,7 +106,7 @@ describe('components from engines', () => {
       )
     }
 
-    const { Component: Comp, useEmitterValue } = engineToComponent(
+    const { Component: Comp, useEmitterValue } = systemToComponent(
       e,
       {
         optional: { prop: 'prop' },
@@ -122,7 +122,7 @@ describe('components from engines', () => {
   })
 
   it('exposes streams as methods', () => {
-    const e = engine(() => {
+    const e = system(() => {
       const meth = statefulStream(20)
       return { meth }
     })
@@ -132,7 +132,7 @@ describe('components from engines', () => {
       return <div>{value}</div>
     }
 
-    const { Component: Comp, useEmitterValue } = engineToComponent(
+    const { Component: Comp, useEmitterValue } = systemToComponent(
       e,
       {
         methods: { meth: 'meth' },
@@ -151,7 +151,7 @@ describe('components from engines', () => {
   })
 
   it('exposes changes in streams as events', () => {
-    const e = engine(() => {
+    const e = system(() => {
       const meth = statefulStream(20)
       const methCalledDouble = statefulStreamFromEmitter(
         pipe(
@@ -168,7 +168,7 @@ describe('components from engines', () => {
       return <div>{value}</div>
     }
 
-    const { Component: Comp, useEmitterValue } = engineToComponent(
+    const { Component: Comp, useEmitterValue } = systemToComponent(
       e,
       {
         methods: { meth: 'meth' },

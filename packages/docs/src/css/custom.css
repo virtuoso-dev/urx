@@ -42,9 +42,9 @@ button.open-in-sandbox {
 }
 
 .hero {
-  background-color: #fff;
+  background-color: #eff2f4;
   background-position: center left;
-  background-image: url("/img/background.svg");
+  background-image: url('/img/background.svg');
   background-size: cover;
 }
 
