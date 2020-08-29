@@ -1,49 +1,49 @@
-const path = require('path')
+const path = require("path");
 
 module.exports = {
-  title: 'urx',
-  tagline: 'Stream-based Reactive State Management Library',
-  url: 'https://urx.virtuoso.dev',
-  baseUrl: '/',
-  onBrokenLinks: 'throw',
-  favicon: 'img/favicon.ico',
-  organizationName: 'petyosi', // Usually your GitHub org/user name.
-  projectName: 'urx', // Usually your repo name.
+  title: "urx",
+  tagline: "Stream-based Reactive State Management Library",
+  url: "https://urx.virtuoso.dev",
+  baseUrl: "/",
+  onBrokenLinks: "throw",
+  favicon: "img/favicon.ico",
+  organizationName: "petyosi", // Usually your GitHub org/user name.
+  projectName: "urx", // Usually your repo name.
   themeConfig: {
     navbar: {
-      title: '',
+      title: "",
       logo: {
-        alt: 'urx Logo',
-        src: 'img/logo.svg',
+        alt: "urx Logo",
+        src: "img/logo.svg",
       },
       items: [
         {
-          to: 'docs/get_started',
-          activeBasePath: 'docs',
-          label: 'Documentation',
-          position: 'left',
+          to: "docs/get_started",
+          activeBasePath: "docs",
+          label: "Documentation",
+          position: "left",
         },
-        { to: 'blog', label: 'Blog', position: 'left' },
+        { to: "blog", label: "Blog", position: "left" },
         {
-          href: 'https://github.com/petyosi/urx',
-          label: 'GitHub',
-          position: 'right',
+          href: "https://github.com/petyosi/urx",
+          label: "GitHub",
+          position: "right",
         },
       ],
     },
     footer: {
-      style: 'dark',
+      style: "dark",
       links: [
         {
-          title: 'Docs',
+          title: "Docs",
           items: [
             {
-              label: 'API Reference',
-              to: 'docs/modules/_actions_',
+              label: "API Reference",
+              to: "docs/modules/_actions_",
             },
             {
-              label: 'GitHub',
-              href: 'https://github.com/petyosi/urx',
+              label: "GitHub",
+              href: "https://github.com/petyosi/urx",
             },
           ],
         },
@@ -53,45 +53,50 @@ module.exports = {
   },
   presets: [
     [
-      '@docusaurus/preset-classic',
+      "@docusaurus/preset-classic",
       {
         docs: {
           // It is recommended to set document id as docs home page (`docs/` path).
-          homePageId: 'README',
-          sidebarPath: require.resolve('./sidebars-with-prose.js'),
+          homePageId: "README",
+          sidebarPath: require.resolve("./sidebars-with-prose.js"),
           // Please change this to your repo.
-          editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+          editUrl:
+            "https://github.com/petyosi/urx/edit/master/packages/docs/docs/",
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
-          editUrl: 'https://github.com/petyosi/urx/edit/master/packages/docs/docs/blog/',
+          editUrl:
+            "https://github.com/petyosi/urx/edit/master/packages/docs/docs/blog/",
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: require.resolve("./src/css/custom.css"),
         },
       },
     ],
   ],
   plugins: [
     [
-      'docusaurus-plugin-typedoc',
+      "docusaurus-plugin-typedoc",
 
       // plugin options
       {
         // list of input files relative to docusaurus.config.js
-        inputFiles: ['../urx/src/', '../react-urx/src/'],
+        inputFiles: ["../urx/src/", "../react-urx/src/"],
+        exclude: "../urx/src/+(index|constants).ts",
 
         // docs directory (defaults to `docs`)
-        out: 'docs/',
+        out: "docs/",
 
         // Skip updating of sidebars.json (defaults to `false`).
         skipSidebar: false,
 
         // Pass in any additional TypeDoc options `(see typedoc --help)`.
-        name: 'Documentation',
+        name: "Documentation",
+        publicPath: "/",
+        stripInternal: true,
       },
     ],
   ],
-  scripts: ['/js/code-sandbox.js'],
-}
+  scripts: ["/js/code-sandbox.js"],
+};

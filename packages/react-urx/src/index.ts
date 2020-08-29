@@ -28,10 +28,12 @@ import {
   subscribe,
 } from 'urx'
 
+/** @internal */
 interface Dict<T> {
   [key: string]: T
 }
 
+/** @internal */
 function omit<O extends Dict<any>, K extends readonly string[]>(keys: K, obj: O): Omit<O, K[number]> {
   var result = {} as Dict<any>
   var index = {} as Dict<1>
@@ -52,16 +54,43 @@ function omit<O extends Dict<any>, K extends readonly string[]>(keys: K, obj: O)
   return result as any
 }
 
+/** @internal */
 export type Observable<T> = Emitter<T> | Publisher<T>
 
+/**
+ * Describes the mapping between the system streams and the component properties.
+ * Each property (except `ssrProps`) uses the keys as the names of the properties and the values as the corresponding stream names.
+ * @type SS the type of the system.
+ */
 export interface SystemPropsMap<SS extends AnySystemSpec, K = keyof SR<SS>, D = { [key: string]: K }> {
+  /**
+   * Specifies the required component properties.
+   */
   required?: D
+  /**
+   * Specifies the optional component properties.
+   */
   optional?: D
+  /**
+   * Specifies the component methods, if any. Streams are converted to methods with a single argument.
+   * When invoked, the method publishes the value of the argument to the specified stream.
+   */
   methods?: D
+  /**
+   * Specifies the component "event" properties, if any.
+   * Event properties accept callback functions which get executed when the stream emits a new value.
+   */
   events?: D
+  /**
+   * Specifies the streams which should get their values from props during server side rendering.
+   * By default, property values are transferred to their respective streams in an `useEffect` hook.
+   * The SSR ones will be set in the function component body.
+   * Be careful using SSR props, and use them only for "static" props. If setting an SSR prop re-renders a child component, React will throw an exception.
+   */
   ssrProps?: K[]
 }
 
+/** @internal */
 export type PropsFromPropMap<E extends AnySystemSpec, M extends SystemPropsMap<E>> = {
   [K in Extract<keyof M['required'], string>]: M['required'][K] extends string
     ? SR<E>[M['required'][K]] extends Observable<infer R>
@@ -84,6 +113,7 @@ export type PropsFromPropMap<E extends AnySystemSpec, M extends SystemPropsMap<E
       : never
   }
 
+/** @internal */
 export type MethodsFromPropMap<E extends AnySystemSpec, M extends SystemPropsMap<E>> = {
   [K in Extract<keyof M['methods'], string>]: M['methods'][K] extends string
     ? SR<E>[M['methods'][K]] extends Observable<infer R>
@@ -92,8 +122,34 @@ export type MethodsFromPropMap<E extends AnySystemSpec, M extends SystemPropsMap
     : never
 }
 
-export type RefHandle<T> = T extends ForwardRefExoticComponent<RefAttributes<infer T2>> ? T2 : never
+/**
+ * Used to correctly annotate refs to the generated component.
+ * @type T the type of the component
+ * ```tsx
+ * const s = system(() => { return { a: statefulStream(0) } })
+ * const { Component } = systemToComponent(s)
+ *
+ * const App = () => {
+ *  const ref = useRef<RefHandle<typeof Component>()
+ *  return <Component ref={ref} />
+ * }
+ * ```
+ */
+export type RefHandle<T> = T extends ForwardRefExoticComponent<RefAttributes<infer Handle>> ? Handle : never
 
+/**
+ * Converts a system spec to React component by mapping the system streams to component properties, events and methods. Returns hooks for querying and modifying
+ * the system streams from the component's child components.
+ * @param systemSpec The return value from a [[system]] call.
+ * @param map The streams to props / events / methods mapping Check [[SystemPropsMap]] for more details.
+ * @param Root The optional React component to render. By default, the resulting component renders nothing, acting as a logical wrapper for its children.
+ * @returns an object containing the following:
+ *  - `Component`: the React component.
+ *  - `useEmitterValue`: a hook that lets child components use values emitted from the specified output stream.
+ *  - `useEmitter`: a hook that calls the provided callback whenever the specified stream emits a value.
+ *  - `usePublisher`: a hook which lets child components publish values to the specified stream.
+ *  <hr />
+ */
 export function systemToComponent<SS extends AnySystemSpec, M extends SystemPropsMap<SS>, S extends SR<SS>, R extends ComponentType<any>>(
   systemSpec: SS,
   map: M,
@@ -109,6 +165,9 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
 
   type CompMethods = MethodsFromPropMap<SS, M>
 
+  /**
+   * A React component generated from an urx system
+   */
   const Component = forwardRef<CompMethods, CompProps>(({ children, ...props }, ref) => {
     const [system] = useState(curry1to0(init, systemSpec))
     const [handlers] = useState(() => {
@@ -205,5 +264,10 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
     useEffect(() => subscribe(source, callback), [callback, source])
   }
 
-  return { Component, usePublisher, useEmitterValue, useEmitter }
+  return {
+    Component,
+    usePublisher,
+    useEmitterValue,
+    useEmitter,
+  }
 }

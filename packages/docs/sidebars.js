@@ -3,8 +3,6 @@ module.exports = {
     "Modules": [
       "modules/_react_urx_src_index_",
       "modules/_urx_src_actions_",
-      "modules/_urx_src_constants_",
-      "modules/_urx_src_index_",
       "modules/_urx_src_interfaces_",
       "modules/_urx_src_operators_",
       "modules/_urx_src_streams_",
@@ -13,9 +11,7 @@ module.exports = {
       "modules/_urx_src_utils_"
     ],
     "Interfaces": [
-      "interfaces/_react_urx_src_index_.dict",
       "interfaces/_react_urx_src_index_.systempropsmap",
-      "interfaces/_urx_src_interfaces_.cell",
       "interfaces/_urx_src_interfaces_.emitter",
       "interfaces/_urx_src_interfaces_.publisher",
       "interfaces/_urx_src_interfaces_.statefulstream",
