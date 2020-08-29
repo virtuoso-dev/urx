@@ -60,7 +60,7 @@ export type Observable<T> = Emitter<T> | Publisher<T>
 /**
  * Describes the mapping between the system streams and the component properties.
  * Each property (except `ssrProps`) uses the keys as the names of the properties and the values as the corresponding stream names.
- * @type SS the type of the system.
+ * @typeParam SS the type of the system.
  */
 export interface SystemPropsMap<SS extends AnySystemSpec, K = keyof SR<SS>, D = { [key: string]: K }> {
   /**
@@ -124,7 +124,7 @@ export type MethodsFromPropMap<E extends AnySystemSpec, M extends SystemPropsMap
 
 /**
  * Used to correctly annotate refs to the generated component.
- * @type T the type of the component
+ * @typeParam T the type of the component
  * ```tsx
  * const s = system(() => { return { a: statefulStream(0) } })
  * const { Component } = systemToComponent(s)

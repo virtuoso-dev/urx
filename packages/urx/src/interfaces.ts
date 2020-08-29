@@ -2,7 +2,7 @@ import { PUBLISH, VALUE, SUBSCRIBE, RESET } from './constants'
 
 /**
  * A Publisher is the **input end** of a Stream. The [[publish]] action publishes values in publishers.
- * @type T the type of values to be published.
+ * @typeParam T the type of values to be published.
  */
 export interface Publisher<T> {
   /** @internal */
@@ -11,7 +11,7 @@ export interface Publisher<T> {
 
 /**
  * An Emitter is the **output end** of a Stream. The [[subscribe]] action binds {@link Subscription | subscriptions} to emitters.
- * @type T the type of values that will be emitted.
+ * @typeParam T the type of values that will be emitted.
  */
 export interface Emitter<T> {
   /** @internal */
@@ -22,7 +22,7 @@ export interface Emitter<T> {
 
 /**
  * Subscriptions are bound to Emitters with the [[subscribe]] action, and get called with the new values.
- * @type T the Emitter value type.
+ * @typeParam T the Emitter value type.
  */
 export interface Subscription<T> {
   (value: T): any
