@@ -22,7 +22,6 @@ jobs:
       - name: Test Build
         run: |
           cd packages/docs
-          yarn install --frozen-lockfile
           yarn build
   gh-release:
     if: github.event_name != 'pull_request'
@@ -45,6 +44,10 @@ jobs:
           HostName github.com
           IdentityFile ~/.ssh/id_rsa
           EOT
+      - name: Bootstrap Lerna
+        run: npx lerna bootstrap
+        env:
+          CI: true
       - name: Release to GitHub Pages
         env:
           USE_SSH: true
