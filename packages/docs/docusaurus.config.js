@@ -39,7 +39,7 @@ module.exports = {
           items: [
             {
               label: "API Reference",
-              to: "docs/modules/_actions_",
+              to: "docs/modules/_urx_src_streams_",
             },
             {
               label: "GitHub",
