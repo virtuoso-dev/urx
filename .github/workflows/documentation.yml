@@ -53,5 +53,4 @@ jobs:
           cd packages/docs
           git config --global user.email "underlog@gmail.com"
           git config --global user.name "Petyo Ivanov"
-          yarn install --frozen-lockfile
           yarn deploy
