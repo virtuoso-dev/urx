@@ -1,42 +1,42 @@
-import React from 'react'
-import clsx from 'clsx'
-import Layout from '@theme/Layout'
-import Link from '@docusaurus/Link'
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext'
-import useBaseUrl from '@docusaurus/useBaseUrl'
-import styles from './styles.module.css'
+import React from "react";
+import clsx from "clsx";
+import Layout from "@theme/Layout";
+import Link from "@docusaurus/Link";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import styles from "./styles.module.css";
 
 const features = [
   {
-    title: <>Easy to Use</>,
-    imageUrl: 'img/undraw_docusaurus_mountain.svg',
+    title: <>Stream-based State Management</>,
+    imageUrl: "img/decoration1.svg",
     description: (
-      <>Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly.</>
+      <>Stream systems describe UI logic in a natural, declarative form.</>
     ),
   },
   {
-    title: <>Focus on What Matters</>,
-    imageUrl: 'img/undraw_docusaurus_tree.svg',
+    title: <>Framework Agnostic. Fit for React</>,
+    imageUrl: "img/decoration2.svg",
+    description: (
+      <>Expose stream systems as React components. No more hook spaghetti.</>
+    ),
+  },
+  {
+    title: <>Compatible with Your Reality</>,
+    imageUrl: "img/decoration3.svg",
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go ahead and move your docs into the <code>docs</code>{' '}
-        directory.
+        Play it safe and port a few pieces of your code to urx. Keep your
+        existing state management for the rest.
       </>
     ),
   },
-  {
-    title: <>Powered by React</>,
-    imageUrl: 'img/undraw_docusaurus_react.svg',
-    description: (
-      <>Extend or customize your website layout by reusing React. Docusaurus can be extended while reusing the same header and footer.</>
-    ),
-  },
-]
+];
 
 function Feature({ imageUrl, title, description }) {
-  const imgUrl = useBaseUrl(imageUrl)
+  const imgUrl = useBaseUrl(imageUrl);
   return (
-    <div className={clsx('col col--4', styles.feature)}>
+    <div className={clsx("col col--4", styles.feature)}>
       {imgUrl && (
         <div className="text--center">
           <img className={styles.featureImage} src={imgUrl} alt={title} />
@@ -45,25 +45,31 @@ function Feature({ imageUrl, title, description }) {
       <h3>{title}</h3>
       <p>{description}</p>
     </div>
-  )
+  );
 }
 
 function Home() {
-  const context = useDocusaurusContext()
-  const { siteConfig = {} } = context
+  const context = useDocusaurusContext();
+  const { siteConfig = {} } = context;
   return (
     <Layout
-      title={`The Tiniest Rective State Management Library`}
+      title={`Stream-Based Rective State Management Library`}
       description="urx is a tiny reactive state management library, designed for complex, multi-input/output systems"
     >
-      <header className={clsx('hero hero--primary', styles.heroBanner)}>
+      <header className={clsx("hero hero--primary", styles.heroBanner)}>
         <div className="container">
           <h1 className="hero__title">
-            <img src="img/urx-logo.png" alt="urx" style={{ height: 334 / 2 }} />
+            <img src="img/logo.svg" alt="urx" style={{ height: 334 / 2 }} />
           </h1>
           <p className="hero__subtitle">{siteConfig.tagline}</p>
           <div className={styles.buttons}>
-            <Link className={clsx('button button--outline button--secondary button--lg', styles.getStarted)} to={useBaseUrl('docs/')}>
+            <Link
+              className={clsx(
+                "button button--primary button--lg",
+                styles.getStarted
+              )}
+              to={useBaseUrl("docs/")}
+            >
               Get Started
             </Link>
           </div>
@@ -83,7 +89,7 @@ function Home() {
         )}
       </main>
     </Layout>
-  )
+  );
 }
 
-export default Home
+export default Home;

@@ -7,8 +7,8 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #9c3725;
-  --ifm-color-primary-dark: rgb(33, 175, 144);
+  --ifm-color-primary: #0253b3;
+  --ifm-color-primary-dark: #b30298;
   --ifm-color-primary-darker: rgb(31, 165, 136);
   --ifm-color-primary-darkest: rgb(26, 136, 112);
   --ifm-color-primary-light: rgb(70, 203, 174);
@@ -16,9 +16,9 @@
   --ifm-color-primary-lightest: rgb(146, 224, 208);
   --ifm-code-font-size: 95%;
   --urx-color-primary: #182f53;
-  --urx-color-background: #f9eee2;
+  --urx-color-background: #0253b3;
   --urx-color-secondary: #f57a4d;
-  --urx-color-ternary: #9c3725;
+  --urx-color-ternary: #0253b3;
 }
 
 .docusaurus-highlight-code-line {
@@ -63,5 +63,5 @@ button.open-in-sandbox {
 }
 
 .button.button--secondary.button--outline:hover {
-  color: var(--urx-color-ternary);
+  color: var(--urx-color-primary);
 }

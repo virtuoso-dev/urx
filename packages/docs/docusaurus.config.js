@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
   title: "urx",
-  tagline: "The Tiniest Rective State Management Library",
+  tagline: "Stream-based Reactive State Management Library",
   url: "https://urx.virtuoso.dev",
   baseUrl: "/",
   onBrokenLinks: "throw",
@@ -14,7 +14,7 @@ module.exports = {
       title: "",
       logo: {
         alt: "urx Logo",
-        src: "img/urx-logo.png",
+        src: "img/logo.svg",
       },
       items: [
         {

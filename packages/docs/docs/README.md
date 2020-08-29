@@ -1,4 +1,4 @@
-# urx: the Tiniest Reactive State Management Library
+# urx: Stream-Based Reactive State Management Library
 
 urx (pronounced [ju:reks], like Durex) is a minimal, opinionated state management library based on the [Reactive Programming](https://en.wikipedia.org/wiki/Reactive_programming) paradigm. 
 
@@ -9,11 +9,11 @@ urx is designed to be:
  - Typescript-native;
  - Extensible
 
-µrx can be used as a standalone library, or as a state manager solution for React components.
+urx can be used as a standalone library, or as a state manager solution for React components.
 
 ## What's urx Suitable For?
 
-µrx is especially useful when a complex state management with input parameters which vary independently over time. 
+urx is especially useful when a complex state management with input parameters which vary independently over time. 
 The reactive programming model enforced by the library abstracts sync / async operations and the different inputs' change sequence.
 
 ## urx in 3 Minutes
