@@ -1,6 +1,12 @@
+/**
+ *
+ * Stream values can be transformed and controlled by {@link pipe | **piping**} through **operators**.
+ * urx includes several operators like [[map]], [[filter]], [[scan]], and [[throttleTime]].
+ * The [[withLatestFrom]] operator allows the combination of values from other streams.
+ * @packageDocumentation
+ */
 import { compose } from './utils'
-import { Emitter } from './interfaces'
-import { subscribe } from './actions'
+import { Emitter, subscribe } from './actions'
 
 /**
  * Operators transform and control the flow of values.

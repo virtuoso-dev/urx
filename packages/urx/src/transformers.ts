@@ -1,12 +1,17 @@
-import { reset, publish, subscribe } from './actions'
+/**
+ * Transformers change and combine streams. The most important one is [[pipe]], which creates new [[Emitter]] by piping values from existing Emitter(s) through one or more operators.
+ * @packageDocumentation
+ */
+import { Emitter, Subscription, reset, publish, subscribe } from './actions'
 import { RESET, SUBSCRIBE } from './constants'
-import { Emitter, Subscription } from './interfaces'
 import { joinProc, thrush } from './utils'
 import { Comparator, defaultComparator, distinctUntilChanged, Operator } from './operators'
 import { stream } from './streams'
 
+/** @internal */
 type CombineOperatorsReturnType<I, O> = (subscriber: (value: O) => void) => (value: I) => void
 
+/** @internal */
 function combineOperators<I>(...operators: Operator<any, any>[]): CombineOperatorsReturnType<I, any> {
   const o2 = operators.slice().reverse()
 
@@ -15,8 +20,13 @@ function combineOperators<I>(...operators: Operator<any, any>[]): CombineOperato
   }
 }
 
+/** @internal */
 type O<I, OP> = Operator<I, OP>
 
+/**
+ * Creates a new emitter from an existing one by piping its values through one or more operators.
+ * Operators can perform various actions like filter values, pull values from other emitters, or compute new values.
+ */
 export function pipe<T>(s: Emitter<T>): Emitter<T> // prettier-ignore
 export function pipe<T, O1>(s: Emitter<T>, o1: O<T, O1>): Emitter<O1> // prettier-ignore
 export function pipe<T, O1, O2>(s: Emitter<T>, ...o: [O<T, O1>, O<O1, O2>]): Emitter<O2> // prettier-ignore
@@ -41,6 +51,9 @@ export function pipe<T>(source: Emitter<T>, ...operators: O<any, any>[]): Emitte
   }) as Emitter<any>
 }
 
+/**
+ * Merges one or more emitters from the same type into a new one which emits values from any of the source emitters.
+ */
 export function merge<T>(...sources: Emitter<T>[]): Emitter<T> {
   return function(action: SUBSCRIBE | RESET, subscription?: Subscription<any>) {
     switch (action) {
@@ -77,6 +90,12 @@ export function duc<T>(source: Emitter<T>, comparator: Comparator<T> = defaultCo
   return pipe(source, distinctUntilChanged(comparator))
 }
 
+/**
+ * Creates an emitter with the latest values from all passed emitters as an array.
+ *
+ * combineLatest acts as a Depot. Using it on stateless streams persists the last emitted value of each Emitter.
+ * Provided that all emitters have emitted at least once, subscribing to the resulting emitter will immediately receive their combined latest values.
+ */
 export function combineLatest<O1, O2>(...emitters: [Emitter<O1>, Emitter<O2>]): Emitter<[O1, O2]> // prettier-ignore
 export function combineLatest<O1, O2, O3>( ...emitters: [Emitter<O1>, Emitter<O2>, Emitter<O3>]): Emitter<[O1, O2, O3]> // prettier-ignore
 export function combineLatest<O1, O2, O3, O4>( ...emitters: [Emitter<O1>, Emitter<O2>, Emitter<O3>, Emitter<O4>]): Emitter<[O1, O2, O3, O4]> // prettier-ignore

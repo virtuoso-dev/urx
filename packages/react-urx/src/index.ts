@@ -1,3 +1,9 @@
+/**
+ * The `react-urx` package makes it possible and easy to build React components from urx systems.
+ * The package exports a single function `systemToComponent` which converts a stream system to a React component
+ * by wiring up streams to properties, events, and methods and exposes hooks for accessing the system from child components.
+ * @packageDocumentation
+ */
 import * as React from 'react'
 import {
   ComponentType,
@@ -124,7 +130,6 @@ export type MethodsFromPropMap<E extends AnySystemSpec, M extends SystemPropsMap
 
 /**
  * Used to correctly annotate refs to the generated component.
- * @typeParam T the type of the component
  * ```tsx
  * const s = system(() => { return { a: statefulStream(0) } })
  * const { Component } = systemToComponent(s)
@@ -134,6 +139,7 @@ export type MethodsFromPropMap<E extends AnySystemSpec, M extends SystemPropsMap
  *  return <Component ref={ref} />
  * }
  * ```
+ * @typeParam T the type of the component
  */
 export type RefHandle<T> = T extends ForwardRefExoticComponent<RefAttributes<infer Handle>> ? Handle : never
 

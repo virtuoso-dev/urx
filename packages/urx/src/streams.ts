@@ -1,15 +1,11 @@
 /**
  * Streams are the basic building blocks of a reactive system. Any stream instance acts as both an [[Emitter]] and [[Publisher]], and allows multiple subscriptions to its values.
- *
  * Stateful streams are used to maintain the state of the system - they persist the last passed value, immediately publising it to any new subscription.
- *
  * Event handlers are suitable for exposing event properties for UI Components, allowing only one subscription at a time.
- *
  * @packageDocumentation
  */
-import { subscribe, connect } from './actions'
+import { Emitter, StatefulStream, Stream, Subscription, Unsubscribe, subscribe, connect } from './actions'
 import { RESET, PUBLISH, SUBSCRIBE, VALUE } from './constants'
-import { Emitter, StatefulStream, Stream, Subscription, Unsubscribe } from './interfaces'
 import { tap } from './utils'
 
 export function stream<T>(): Stream<T> {
