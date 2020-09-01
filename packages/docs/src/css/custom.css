@@ -44,7 +44,7 @@ button.open-in-sandbox {
 .hero {
   background-color: #eff2f4;
   background-position: center left;
-  background-image: url('/img/background.svg');
+  background-image: url("/img/background.svg");
   background-size: cover;
 }
 
@@ -64,4 +64,13 @@ button.open-in-sandbox {
 
 .button.button--secondary.button--outline:hover {
   color: var(--urx-color-primary);
+}
+
+.footer__link-credit,
+.footer__link-credit:hover {
+  color: #fff;
+}
+
+.lead {
+  line-height: 2em;
 }

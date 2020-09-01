@@ -33,22 +33,12 @@ module.exports = {
     },
     footer: {
       style: "dark",
-      links: [
-        {
-          title: "Docs",
-          items: [
-            {
-              label: "API Reference",
-              to: "docs/modules/_urx_src_streams_",
-            },
-            {
-              label: "GitHub",
-              href: "https://github.com/petyosi/urx",
-            },
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} Petyo Ivanov. Built with Docusaurus.`,
+      links: [],
+      copyright: `
+      Copyright © ${new Date().getFullYear()} Petyo Ivanov. 
+      Built with Docusaurus. 
+      <a class="footer__link-credit" href="https://www.freepik.com/vectors/background">Background from freepik</a>. 
+      Colors from <a class="footer__link-credit" href="https://www.instagram.com/p/BvRh7rjB--d/">awsmcolor</a>.`,
     },
   },
   presets: [
