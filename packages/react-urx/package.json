@@ -25,16 +25,17 @@
       "pre-commit": "tsdx lint"
     }
   },
-  "name": "react-urx",
+  "name": "@virtuoso/react-urx",
   "author": "Petyo Ivanov",
   "module": "dist/react-urx.esm.js",
   "dependencies": {
-    "urx": "^0.1.1"
+    "@virtuoso/urx": "^0.1.1"
   },
   "devDependencies": {
     "@types/react": "^16.9.46",
     "@types/react-dom": "^16.9.8",
     "eslint-plugin-json": "^2.1.1",
+    "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.2.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

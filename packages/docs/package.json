@@ -1,5 +1,5 @@
 {
-  "name": "docs",
+  "name": "@virtuoso/urx-docs",
   "version": "0.1.1",
   "private": true,
   "scripts": {
@@ -35,7 +35,7 @@
     "typedoc": "^0.18.0",
     "typedoc-plugin-markdown": "^2.4.1",
     "typescript": "^3.9.5",
-    "urx": "^0.1.1",
-    "react-urx": "^0.1.1"
+    "@virtuoso/urx": "^0.1.1",
+    "@virtuoso/react-urx": "^0.1.1"
   }
 }
