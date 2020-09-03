@@ -68,7 +68,6 @@ module.exports = {
   plugins: [
     [
       "docusaurus-plugin-typedoc",
-
       // plugin options
       {
         // list of input files relative to docusaurus.config.js
@@ -88,5 +87,4 @@ module.exports = {
       },
     ],
   ],
-  scripts: ["/js/code-sandbox.js"],
 };

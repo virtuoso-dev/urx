@@ -4,7 +4,7 @@ title: "urx by example"
 sidebar_label: "urx by Example"
 ---
 
-<p class="lead">
+<p className="lead">
 Before diving deeper, let's accomplish a small victory with a simple, end-to-end practical walkthrough.
 In this section, we will build an urx-based React component that sums two numbers and displays the result.
 </p>
@@ -169,10 +169,14 @@ ReactDOM.render(<App />, document.getElementById("root"));
 
 And, that's it! below, you can find the complete source - open it in CodeSandbox and tweak some of it for more interactive learning.
 
-```tsx sandbox="true"
+import OpenInSandbox from '../src/OpenInSandbox';
+
+<OpenInSandbox />
+
+```tsx sandbox=true
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { systemToComponent } from "../src/";
+import { systemToComponent } from "@virtuoso/react-urx";
 import {
   system,
   statefulStream,
@@ -195,8 +199,6 @@ const sumSystem = system(() => {
     map(([a, b]) => a + b)
   );
 
-  // output streams must be stateful
-  // so we convert the emitter to a stateful stream
   const sum = statefulStreamFromEmitter(aPlusB, 0);
 
   return { a, b, sum };

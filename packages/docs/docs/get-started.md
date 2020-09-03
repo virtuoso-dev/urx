@@ -4,7 +4,7 @@ title: "Get Started with urx"
 sidebar_label: "Get Started"
 ---
 
-<p class="lead">
+<p className="lead">
 urx is a JS toolkit for UI state management based on the the reactive programming paradigm.
 urx ships a set of reactive utilities &ndash; streams, actions, transformers and operators. 
 Streams and their relationships are organized in systems and subsystems. 

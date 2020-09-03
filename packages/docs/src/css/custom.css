@@ -37,8 +37,8 @@ button.open-in-sandbox {
   outline: none;
   padding: 0.4rem 0.5rem;
   position: absolute;
-  right: calc(var(--ifm-pre-padding) / 2);
-  bottom: calc(var(--ifm-pre-padding) / 2);
+  right: calc(var(--ifm-pre-padding) / 2 + 3.5rem);
+  top: calc(var(--ifm-pre-padding) / 2);
 }
 
 .hero {
