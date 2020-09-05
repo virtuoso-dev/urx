@@ -45,3 +45,25 @@ jobs:
         run: npx lerna run build
         env:
           CI: true
+
+      - name: Deploy Docs
+        if: ${{ github.ref == 'master' }}
+        env:
+          CI: true
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          USE_SSH: true
+          GIT_USER: petyosi
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          git config --global user.email "underlog@gmail.com"
+          git config --global user.name "Petyo Ivanov"
+          cat <<EOT >> ~/.ssh/config
+          Host github.com
+          HostName github.com
+          IdentityFile ~/.ssh/id_rsa
+          EOT
+          cd packages/docs
+          yarn deploy
