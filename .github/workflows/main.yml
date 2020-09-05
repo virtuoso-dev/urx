@@ -47,7 +47,7 @@ jobs:
           CI: true
 
       - name: Deploy Docs
-        if: ${{ github.ref == 'master' }}
+        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
         env:
           CI: true
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
