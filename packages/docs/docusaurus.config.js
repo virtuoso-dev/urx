@@ -1,5 +1,3 @@
-const path = require("path");
-
 module.exports = {
   title: "urx",
   tagline: "Stream-based Reactive State Management Library",
@@ -9,7 +7,12 @@ module.exports = {
   favicon: "img/favicon.ico",
   organizationName: "petyosi", // Usually your GitHub org/user name.
   projectName: "urx", // Usually your repo name.
+  stylesheets: ["css/prism.css"],
   themeConfig: {
+    prism: {
+      theme: require("prism-react-renderer/themes/duotoneLight"),
+      darkTheme: require("prism-react-renderer/themes/duotoneDark"),
+    },
     navbar: {
       title: "",
       logo: {
