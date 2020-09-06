@@ -21,9 +21,9 @@ jobs:
           node-version: 12.x
 
       - name: Use cached node_modules
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
-          path: node_modules
+          path: **/node_modules
           key: nodeModules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             nodeModules-
@@ -54,7 +54,9 @@ jobs:
           EOT
 
       - if: github.ref == 'refs/heads/master'
-        run: yarn pub
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
+          yarn pub
 
       - name: Deploy docs
         if: github.ref == 'refs/heads/master'
