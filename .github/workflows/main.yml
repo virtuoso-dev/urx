@@ -46,13 +46,18 @@ jobs:
         env:
           CI: true
 
-      - name: Deploy Docs
-        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
-        env:
-          CI: true
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          USE_SSH: true
-          GIT_USER: petyosi
+  release:
+    needs: build
+    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+      SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      USE_SSH: true
+      GIT_USER: petyosi
+      NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+    steps:
+      - name: Configure GH Access
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
@@ -65,5 +70,9 @@ jobs:
           HostName github.com
           IdentityFile ~/.ssh/id_rsa
           EOT
+      - name: Publish packages
+        run: yarn pub
+      - name: Deploy docs
+        run: |
           cd packages/docs
           yarn deploy
