@@ -1,6 +1,6 @@
 {
   "name": "@virtuoso.dev/urx",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "license": "MIT",
   "author": "Petyo Ivanov",
   "main": "dist/index.js",
