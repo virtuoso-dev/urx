@@ -1,5 +1,5 @@
 /**
- * The `@virtuoso/react-urx` package makes it possible and easy to build React components from urx systems.
+ * The `@virtuoso.dev/react-urx` package makes it possible and easy to build React components from urx systems.
  * The package exports a single function `systemToComponent` which converts a stream system to a React component
  * by wiring up streams to properties, events, and methods and exposes hooks for accessing the system from child components.
  * @packageDocumentation
@@ -32,7 +32,7 @@ import {
   StatefulStream,
   Stream,
   subscribe,
-} from '@virtuoso/urx'
+} from '@virtuoso.dev/urx'
 
 /** @internal */
 interface Dict<T> {

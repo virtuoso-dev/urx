@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { systemToComponent } from '../src/'
-import { system, statefulStream, combineLatest, map, pipe, statefulStreamFromEmitter, init, subscribe, publish } from '@virtuoso/urx'
+import { system, statefulStream, combineLatest, map, pipe, statefulStreamFromEmitter, init, subscribe, publish } from '@virtuoso.dev/urx'
 import { useState } from 'react'
 
 const sys = system(() => {
@@ -23,7 +23,7 @@ const sys = system(() => {
 
 const { a, b, sum } = init(sys)
 
-subscribe(sum, sum => console.log({ sum }))
+subscribe(sum, (sum) => console.log({ sum }))
 publish(a, 5)
 publish(b, 7)
 
@@ -42,7 +42,7 @@ const Input = () => {
   return (
     <div>
       <label>
-        Input B value: <input value={b} type="number" onChange={e => setB(numValueFromEvent(e))} size={5} />
+        Input B value: <input value={b} type="number" onChange={(e) => setB(numValueFromEvent(e))} size={5} />
       </label>
       Sum: {sum}
     </div>
@@ -53,7 +53,7 @@ const App = () => {
   const [a, setA] = useState(0)
   return (
     <div>
-      <input type="range" id="points" name="points" min="0" max="10" value={a} onChange={e => setA(numValueFromEvent(e))} />
+      <input type="range" id="points" name="points" min="0" max="10" value={a} onChange={(e) => setA(numValueFromEvent(e))} />
       <SumComponent a={a}>
         <Input />
       </SumComponent>

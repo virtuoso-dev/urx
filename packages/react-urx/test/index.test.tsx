@@ -2,7 +2,7 @@ import * as React from 'react'
 import { createRef, FC } from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { act } from 'react-dom/test-utils'
-import { connect, system, map, pipe, statefulStream, statefulStreamFromEmitter, stream } from '@virtuoso/urx'
+import { connect, system, map, pipe, statefulStream, statefulStreamFromEmitter, stream } from '@virtuoso.dev/urx'
 import { systemToComponent, RefHandle } from '../src'
 
 describe('components from system', () => {

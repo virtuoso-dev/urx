@@ -23,7 +23,7 @@ import {
   map,
   pipe,
   statefulStreamFromEmitter,
-} from "@virtuoso/urx";
+} from "@virtuoso.dev/urx";
 
 const sumSystem = system(() => {
   // stateful streams start wtih an initial value
@@ -70,7 +70,7 @@ import {
   init,
   subscribe,
   publish,
-} from "@virtuoso/urx";
+} from "@virtuoso.dev/urx";
 
 // ... code from above
 
@@ -102,7 +102,7 @@ import {
   subscribe,
   publish,
   systemToComponent,
-} from "@virtuoso/urx";
+} from "@virtuoso.dev/urx";
 
 //...
 const {
@@ -176,7 +176,7 @@ import OpenInSandbox from '../src/OpenInSandbox';
 ```tsx sandbox=true
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { systemToComponent } from "@virtuoso/react-urx";
+import { systemToComponent } from "@virtuoso.dev/react-urx";
 import {
   system,
   statefulStream,
@@ -187,7 +187,7 @@ import {
   init,
   subscribe,
   publish,
-} from "@virtuoso/urx";
+} from "@virtuoso.dev/urx";
 import { useState } from "react";
 
 const sumSystem = system(() => {
