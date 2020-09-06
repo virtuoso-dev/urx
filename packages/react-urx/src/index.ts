@@ -11,6 +11,7 @@ import {
   createElement,
   forwardRef,
   ForwardRefExoticComponent,
+  ReactNode,
   RefAttributes,
   useContext,
   useEffect,
@@ -156,7 +157,7 @@ export type RefHandle<T> = T extends ForwardRefExoticComponent<RefAttributes<inf
  *  - `usePublisher`: a hook which lets child components publish values to the specified stream.
  *  <hr />
  */
-export function systemToComponent<SS extends AnySystemSpec, M extends SystemPropsMap<SS>, S extends SR<SS>, R extends ComponentType<any>>(
+export function systemToComponent<SS extends AnySystemSpec, M extends SystemPropsMap<SS>, S extends SR<SS>, R>(
   systemSpec: SS,
   map: M,
   Root?: R
@@ -167,14 +168,16 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
   const eventNames = Object.keys(map.events || {})
   const Context = createContext<SR<SS>>(({} as unknown) as any)
 
-  type CompProps = PropsFromPropMap<SS, M> & (R extends ComponentType<infer RP> ? RP : {})
+  type RootCompProps = R extends ComponentType<infer RP> ? RP : { children?: ReactNode }
+  type CompProps = PropsFromPropMap<SS, M> & RootCompProps
 
   type CompMethods = MethodsFromPropMap<SS, M>
 
   /**
    * A React component generated from an urx system
    */
-  const Component = forwardRef<CompMethods, CompProps>(({ children, ...props }, ref) => {
+  const Component = forwardRef<CompMethods, CompProps>((propsWithChildren, ref) => {
+    const { children, ...props } = propsWithChildren as any
     const [system] = useState(curry1to0(init, systemSpec))
     const [handlers] = useState(() => {
       return eventNames.reduce((handlers, eventName) => {
@@ -231,7 +234,13 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
     return createElement(
       Context.Provider,
       { value: system },
-      Root ? createElement(Root, omit([...requiredPropNames, ...optionalPropNames, ...eventNames], props), children) : children
+      Root
+        ? createElement(
+            (Root as unknown) as ComponentType,
+            omit([...requiredPropNames, ...optionalPropNames, ...eventNames], props),
+            children
+          )
+        : children
     )
   })
 
