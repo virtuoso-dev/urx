@@ -1,5 +1,5 @@
 {
-  "version": "0.1.6",
+  "version": "0.1.7",
   "private": false,
   "license": "MIT",
   "main": "dist/index.js",
@@ -30,7 +30,7 @@
   "author": "Petyo Ivanov",
   "module": "dist/react-urx.esm.js",
   "dependencies": {
-    "@virtuoso.dev/urx": "^0.1.6"
+    "@virtuoso.dev/urx": "^0.1.7"
   },
   "devDependencies": {
     "@types/react": "^16.9.46",
