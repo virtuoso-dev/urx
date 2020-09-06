@@ -4,6 +4,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      CI: true
+      SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      USE_SSH: true
+      GIT_USER: petyosi
+      NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
     steps:
       - name: Begin CI...
         uses: actions/checkout@v2
@@ -21,43 +28,18 @@ jobs:
           restore-keys: |
             nodeModules-
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-        env:
-          CI: true
+      - run: yarn install --frozen-lockfile
 
-      - name: Bootstrap Lerna
-        run: npx lerna bootstrap
-        env:
-          CI: true
+      - run: npx lerna bootstrap
 
-      - name: Lint
-        run: npx lerna run lint
-        env:
-          CI: true
+      - run: npx lerna run lint
 
-      - name: Test
-        run: npx lerna run test -- --ci --coverage --maxWorkers=2
-        env:
-          CI: true
+      - run: npx lerna run test -- --ci --coverage --maxWorkers=2
 
-      - name: Build
-        run: npx lerna run build
-        env:
-          CI: true
+      - run: npx lerna run build
 
-  release:
-    needs: build
-    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
-    env:
-      CI: true
-      SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      USE_SSH: true
-      GIT_USER: petyosi
-      NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-    steps:
       - name: Configure GH Access
+        if: github.ref == 'refs/heads/master'
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
@@ -70,9 +52,12 @@ jobs:
           HostName github.com
           IdentityFile ~/.ssh/id_rsa
           EOT
-      - name: Publish packages
+
+      - if: github.ref == 'refs/heads/master'
         run: yarn pub
+
       - name: Deploy docs
+        if: github.ref == 'refs/heads/master'
         run: |
           cd packages/docs
           yarn deploy
