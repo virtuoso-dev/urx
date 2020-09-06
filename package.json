@@ -1,6 +1,9 @@
 {
   "name": "root",
   "private": true,
+  "scripts": {
+    "pub": "lerna version --conventional-commits --no-push --yes && lerna publish from-git --yes"
+  },
   "devDependencies": {
     "eslint-config-react-app": "^5.2.1",
     "lerna": "^3.22.1"
