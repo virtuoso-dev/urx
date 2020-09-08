@@ -16,28 +16,28 @@ to properties, methods, events, and hooks for child components.
 
 As a practical start, the section leads you through building a simple sum React component with urx backend. 
 
-## Thinking in Systems
+## [Streams](modules/_urx_src_streams_)
 
-Borrowing the title from [the seminal book](https://www.goodreads.com/book/show/3828902-thinking-in-systems), 
-we scratch the surface on the formal definition of systems and how they are applied to real world problems, 
-including the state management of our next UI component.
+Streams are the basic building blocks of a reactive system. Understanding their principles and the implementation provided by urx.
 
-## Streams Explained
-
-A section focused on the stream types and capabilities available in urx.
-
-## Piping and Operators
+## [Piping and Operators](modules/_urx_src_pipe_)
 
 Transforming the output of stream(s) into other streams is what most of your code will be. 
-In this section, we focus on how piping works and what operators do.
+In this section, we focus on how pipe works and what operators do.
 
-## Stream Systems
+## [Transfomers](modules/_urx_src_transformers_)
 
-This section covers the `system` factory, how `init` works, and how multiple systems can be organized into dependencies.
+Similar to operators, transformers are utilities which operate on multiple streams. Learn how to use `combineLatest` and `merge`.
 
-## urx and React
+## [Systems](modules/_urx_src_system_)
 
-urx is a framework agnostic tool. react-urx ships a convenient package that maps an urx system to a react component.
+The section explains systems on a conceptual level and how they are applied to real world problems. 
+Next, we cover the `system` factory function, how to `init` systems, 
+and how multiple systems can be organized into dependencies.
+
+## [react-urx](modules/_react_urx_src_index_)
+
+React-urx implements `systemToComponent` function that wraps urx systems as Logic Provider React components, mapping streams to properties and hooks.
 
 ## urx for Redux Developers
 
