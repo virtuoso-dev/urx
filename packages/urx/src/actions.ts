@@ -63,13 +63,31 @@ export interface StatefulStream<T> extends Publisher<T>, Emitter<T> {
 
 /**
  * Subscribes the specified [[Subscription]] to the updates from the Emitter.
+ * The emitter calls the subscription with the new data each time new data is published into it.
+ *
+ * ```ts
+ * const foo = stream<number>();
+ * subscribe(foo, (value) => console.log(value));
+ * ```
+ *
+ * @returns an [[Unsubscribe]] handle  - calling it will unbind the subscription from the emitter.
+ *```ts
+ * const foo = stream<number>();
+ * const unsub = subscribe(foo, (value) => console.log(value));
+ * unsub();
+ *```
  */
 export function subscribe<T>(emitter: Emitter<T>, subscription: Subscription<T>): Unsubscribe {
   return emitter(SUBSCRIBE, subscription)
 }
 
 /**
- * Publishes the passed value in the [[Publisher]].
+ * Publishes the value into the passed [[Publisher]].
+ *
+ * ```ts
+ * const foo = stream<number>();
+ * publish(foo, 42);
+ * ```
  */
 export function publish<T>(publisher: Publisher<T>, value: T) {
   publisher(PUBLISH, value)
@@ -77,20 +95,39 @@ export function publish<T>(publisher: Publisher<T>, value: T) {
 
 /**
  * Clears all subscriptions from the [[Emitter]].
+ * ```ts
+ * const foo = stream<number>();
+ * subscribe(foo, (value) => console.log(value));
+ * reset(foo);
+ * publish(foo, 42);
+ * ```
  */
 export function reset(emitter: Emitter<any>) {
   emitter(RESET)
 }
 
 /**
- * Gets the value currently stored in the stateful stream.
+ * Extracts the current value from a stateful stream. Use it only as an escape hatch, as it violates the concept of reactive programming.
+ * ```ts
+ * const foo = statefulStream(42);
+ * console.log(getValue(foo));
+ * ```
  */
 export function getValue<T>(depot: StatefulStream<T>): T {
   return depot(VALUE)
 }
 
 /**
- * Connects the two streams - any value emitted from the emitter will be published in the publisher.
+ * Connects two streams - any value emitted from the emitter will be published in the publisher.
+ * ```ts
+ * const foo = stream<number>();
+ * const bar = stream<number>();
+ * subscribe(bar, (value) => console.log(`Bar emitted ${value}`));
+ *
+ * connect(foo, bar);
+ * publish(foo);
+ * ```
+ * @returns an [[Unsubscribe]] handle which will disconnect the two streams.
  */
 export function connect<T>(emitter: Emitter<T>, publisher: Publisher<T>) {
   return subscribe(emitter, curry2to1(publisher, PUBLISH))
@@ -98,6 +135,13 @@ export function connect<T>(emitter: Emitter<T>, publisher: Publisher<T>) {
 
 /**
  * Executes the passed subscription at most once, for the next emit from the emitter.
+ * ```ts
+ * const foo = stream<number>()
+ * handleNext(foo, value => console.log(value)) // called once, with 42
+ * publish(foo, 42)
+ * publish(foo, 43)
+ * ```
+ * @returns an [[Unsubscribe]] handle to unbind the subscription if necessary.
  */
 export function handleNext<T>(emitter: Emitter<T>, subscription: Subscription<T>) {
   const unsub = emitter(SUBSCRIBE, value => {
