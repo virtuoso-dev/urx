@@ -1,32 +1,42 @@
 /**
- * [[system]] is a construction utility to define and initialize sets of connected streams.
- * Systems can list other systems as their dependencies, and optionally act as singletons in the dependency tree.
+ * ## Thinking in Systems
+ * systems are a stateful **data-processing machines** which accept input through **input streams**,
+ * init and maintain state in **depots** and, in certain conditions, emit values to subscriptions through **output streams**.
+ * Systems can specify other systems as dependencies, and can act as singletons in the resulting dependency tree.
  *
- * ```ts
- * @import { subscribe, publish, system, init, tup, connect, map, pipe } from 'urx'
+ * ### Depots
  *
- * // a simple system with two streams
- * const sys1 = system(() => {
- *  const a = stream<number>()
- *  const b = stream<number>()
+ * The first, and probably the most critical part to understand are **the depots**
+ * mostly because they are somewhat implicit.
+ * Unlike other state management paradigms, the depots are not kept in a single data structure.
+ * Insted, depots are defined and maintained as stateful streams, stateful transfomers
+ * like [[combineLatest]] or stateful operators like[ []withLatestFrom] or [[scan]].
  *
- *  connect(pipe(a, map(value => value * 2)), b)
- *  return { a, b }
- * })
+ * **Depots persist values over time**.
+ * If it was not for them, the system had to re-receive its entire input state simultaneously in order to calculate the values for its output stream.
  *
- * // a second system which depends on the streams from the first one
- * const sys2 = system(([ {a, b} ]) => {
- *  const c = stream<number>()
- *  connect(pipe(b, map(value => value * 2)), c)
- *  // re-export the `a` stream, keep `b` internal
- *  return { a, c }
- * }, tup(sys1))
+ * Of course, strictly speaking, it is possible to implement a pure, stateless system as a form of a complex map/reduce. urx would not mind that ;).
  *
- * // init will recursively initialize sys2 dependencies, in this case sys1
- * const { a, c } = init(sys2)
- * subscribe(c, c => console.log(`Value multiplied by 4`, c))
- * publish(a, 2)
- * ```
+ * ### Input Streams
+ *
+ * The system receives updates from the rest of the world through values published in its input streams.
+ * The streams used can be either stateless (acting as means to send **signals**) or stateful, where the initial stream state acts as the default value for that system parameter.
+ *
+ * The effects of the input streams are up to the system data-processing logic. It can change its depots' state, and/or emit values through its output streams.
+ *
+ * ### Data Processing
+ *
+ * The actual system behavior is exclusively implemented by **applying transformers and operators** to the input streams, producing the respective output streams.
+ * In the final state the system streams are organized in a directed graph, where incoming data is routed through certain edges and nodes.
+ * Simple systems like the one in [urx by example](./urx-by-example) can use a straightforward single-step transformation (in this case, `combineLatest` and `map`),
+ * while complex ones can introduce multiple intermediate streams to model their logic.
+ *
+ * ### Output Streams
+ *
+ * The system publishes updates to its clients (other systems or an UI bound to it) by publishing data in its output streams.
+ * State-reflecting output streams, like `sum` in the [urx by example](./urx-by-example) should use stateful streams as output streams.
+ * Signal-like output should use regular, stateless streams. In general, stateless input streams tend to have a symmetrical stateless streams, and the opposite.
+ *
  * @packageDocumentation
  */
 import { Emitter } from './actions'
@@ -94,6 +104,34 @@ export type SystemConstructor<D extends SystemSpecs> = (dependencies: SpecResult
  * `system` defines a specification of a system - its constructor, dependencies and if it should act as a singleton in a system dependency tree.
  * When called, system returns a [[SystemSpec]], which is then initialized along with its dependencies by passing it to [[init]].
  *
+ * ```ts
+ * @import { subscribe, publish, system, init, tup, connect, map, pipe } from 'urx'
+ *
+ * // a simple system with two streams
+ * const sys1 = system(() => {
+ *  const a = stream<number>()
+ *  const b = stream<number>()
+ *
+ *  connect(pipe(a, map(value => value * 2)), b)
+ *  return { a, b }
+ * })
+ *
+ * // a second system which depends on the streams from the first one
+ * const sys2 = system(([ {a, b} ]) => {
+ *  const c = stream<number>()
+ *  connect(pipe(b, map(value => value * 2)), c)
+ *  // re-export the `a` stream, keep `b` internal
+ *  return { a, c }
+ * }, tup(sys1))
+ *
+ * // init will recursively initialize sys2 dependencies, in this case sys1
+ * const { a, c } = init(sys2)
+ * subscribe(c, c => console.log(`Value multiplied by 4`, c))
+ * publish(a, 2)
+ * ```
+ *
+ * #### Singletons in Dependency Tree
+ *
  * By default, systems will be initialized only once if encountered multiple times in the dependency tree.
  * In the below dependency system tree, systems `b` and `c` will receive the same stream instances from system `a` when system `d` is initialized.
  * ```txt
@@ -103,7 +141,7 @@ export type SystemConstructor<D extends SystemSpecs> = (dependencies: SpecResult
  *  \ /
  *   d
  * ```
- * If system `a` gets `{singleton: false}` as last argument, two separate instances will be created.
+ * If `a` gets `{singleton: false}` as a last argument, `init` creates two separate instances - one for `b` and one for `c`.
  *
  * @param constructor the system constructor function. Initialize and connect the streams in its body.
  *
@@ -113,7 +151,7 @@ export type SystemConstructor<D extends SystemSpecs> = (dependencies: SpecResult
  * const sys3 = system(() => { ... }, tup(sys2, sys1))
  * ```
  * @param __namedParameters Options
- * @param singleton should the system act as a singleton in other system dependency tree.
+ * @param singleton determines if the system will act as a singleton in a system dependency tree. `true` by default.
  */
 export function system<F extends SystemConstructor<D>, D extends SystemSpecs>(
   constructor: F,
@@ -128,10 +166,27 @@ export function system<F extends SystemConstructor<D>, D extends SystemSpecs>(
   }
 }
 
+/** @internal */
 const id = () => (Symbol() as unknown) as string
 
 /**
  * Initializes a [[SystemSpec]] by recursively initializing its dependencies.
+ *
+ * ```ts
+ * // a simple system with two streams
+ * const sys1 = system(() => {
+ *  const a = stream<number>()
+ *  const b = stream<number>()
+ *
+ *  connect(pipe(a, map(value => value * 2)), b)
+ *  return { a, b }
+ * })
+ *
+ * const { a, b } = init(sys1)
+ * subscribe(b, b => console.log(b))
+ * publish(a, 2)
+ * ```
+ *
  * @returns the [[System]] constructed by the spec constructor.
  * @param systemSpec the system spec to initialize.
  */
