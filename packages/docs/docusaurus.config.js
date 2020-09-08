@@ -5,7 +5,7 @@ module.exports = {
   baseUrl: "/",
   onBrokenLinks: "throw",
   favicon: "img/favicon.ico",
-  organizationName: "petyosi", // Usually your GitHub org/user name.
+  organizationName: "virtuoso-dev", // Usually your GitHub org/user name.
   projectName: "urx", // Usually your repo name.
   stylesheets: ["css/prism.css"],
   themeConfig: {
@@ -28,7 +28,7 @@ module.exports = {
         },
         { to: "blog", label: "Blog", position: "left" },
         {
-          href: "https://github.com/petyosi/urx",
+          href: "https://github.com/virtuoso-dev/urx",
           label: "GitHub",
           position: "right",
         },
@@ -49,16 +49,13 @@ module.exports = {
       "@docusaurus/preset-classic",
       {
         docs: {
-          // It is recommended to set document id as docs home page (`docs/` path).
-          homePageId: "README",
+          homePageId: "get-started",
           sidebarPath: require.resolve("./sidebars-with-prose.js"),
-          // Please change this to your repo.
           editUrl:
-            "https://github.com/petyosi/urx/edit/master/packages/docs/docs/",
+            "https://github.com/virtuoso-dev/urx/edit/master/packages/docs/docs/",
         },
         blog: {
           showReadingTime: true,
-          // Please change this to your repo.
           editUrl:
             "https://github.com/petyosi/urx/edit/master/packages/docs/docs/blog/",
         },
