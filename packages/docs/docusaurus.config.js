@@ -49,7 +49,7 @@ module.exports = {
       "@docusaurus/preset-classic",
       {
         docs: {
-          homePageId: "get-started",
+          homePageId: "/docs/",
           sidebarPath: require.resolve("./sidebars-with-prose.js"),
           editUrl:
             "https://github.com/virtuoso-dev/urx/edit/master/packages/docs/docs/",

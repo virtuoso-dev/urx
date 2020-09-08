@@ -28,13 +28,13 @@
  *
  * The actual system behavior is exclusively implemented by **applying transformers and operators** to the input streams, producing the respective output streams.
  * In the final state the system streams are organized in a directed graph, where incoming data is routed through certain edges and nodes.
- * Simple systems like the one in [urx by example](./urx-by-example) can use a straightforward single-step transformation (in this case, `combineLatest` and `map`),
+ * Simple systems like the one in [urx by example](https://urx.virtuoso.dev/docs/urx-by-example) can use a straightforward single-step transformation (in this case, `combineLatest` and `map`),
  * while complex ones can introduce multiple intermediate streams to model their logic.
  *
  * ### Output Streams
  *
  * The system publishes updates to its clients (other systems or an UI bound to it) by publishing data in its output streams.
- * State-reflecting output streams, like `sum` in the [urx by example](./urx-by-example) should use stateful streams as output streams.
+ * State-reflecting output streams, like `sum` in the [urx by example](https://urx.virtuoso.dev/docs/urx-by-example) should use stateful streams as output streams.
  * Signal-like output should use regular, stateless streams. In general, stateless input streams tend to have a symmetrical stateless streams, and the opposite.
  *
  * @packageDocumentation
