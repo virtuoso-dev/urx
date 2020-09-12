@@ -1,5 +1,7 @@
 /**
- * react-urx [[systemToComponent]] wraps urx systems in to UI **logic provider components** by mapping the system input and output streams to the component input / output points.
+ * `@virtuoso.dev/react-urx` exports the [[systemToComponent]] function.
+ * It wraps urx systems in to UI **logic provider components**,
+ * mapping the system input and output streams to the component input / output points.
  *
  * ### Simple System wrapped as React Component
  *
@@ -22,29 +24,6 @@
  *   return <Comp fooProp={42}><Child /><Comp>
  * }
  * ```
- *
- * ### Component Props to Streams
- *
- * | Component Traits | Mapped Stream Type       | Notes                                                                                                                                                                                                                                                                         |
- * |------------------|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
- * | Value properties | Stateful input streams   | Value properties can be thought of as system parameters, which can change over time.  In practice, such parameters must have some sort of initial value, even if it is undefined.                                                                                              |
- * | Event properties | Stateless output streams | Component events are special properties which accept callbacks. The mapping applies those callbacks as subscriptions to the specified stream.  It is counter intuitive to fire event handlers upon component initialization,  so you should use stateless streams for events. |
- * | Methods          | Stateless input streams  | Component methods (limited to a single argument) publish  the passed argument into the specified stream.                                                                                                                                                                         |
- *
- * ### Hooks to Streams
- *
- * The resulting provider component does not have UI. Instead, it exposes hooks which allow its child components to interact with the underlying system.
- * In React, this happens through the following hooks:
- *
- * | Hook              | Stream Type             | Notes                                                                                                                                          |
- * |-------------------|-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
- * | `useEmitterValue` | Stateful output streams | The hook uses `useState` internally and re-renders the component when the stream emits a value.  Works only with stateful streams.             |
- * | `useEmitter`      | Output streams          | Calls the specified callback when the stream emits a value. Does not re-render the component,  works with both stateful and stateless streams. |
- * | `usePublisher`    | Input streams           | Returns a function which can publish the passed argument into the stream.  Works with both stateful and stateless streams.                     |
- *
- * Reducing the various component I/O points to streams and modeling their interactions
- * eases implementing complex yet resilient UI components and allows testing of the component logic outside
- * the React lifecycle.
  *
  * @packageDocumentation
  */

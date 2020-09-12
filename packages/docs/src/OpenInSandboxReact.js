@@ -26,19 +26,27 @@ const packageJson = {
   name: "urx-example",
   version: "1.0.0",
   description: "urx example",
-  keywords: ["typescript", "urx", "starter"],
-  main: "src/example.ts",
+  keywords: ["typescript", "react", "starter"],
+  main: "src/index.tsx",
   dependencies: {
     "@virtuoso.dev/urx": "latest",
     "@virtuoso.dev/react-urx": "latest",
+    react: "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-scripts": "3.3.0",
   },
   devDependencies: {
-    "parcel-bundler": "^1.6.1",
+    "@types/react": "16.9.19",
+    "@types/react-dom": "16.9.5",
+    typescript: "3.7.5",
   },
   scripts: {
-    start: "parcel index.html --open",
-    build: "parcel build index.html",
+    start: "react-scripts start",
+    build: "react-scripts build",
+    test: "react-scripts test --env=jsdom",
+    eject: "react-scripts eject",
   },
+  browserslist: [">0.2%", "not dead", "not ie <= 11", "not op_mini all"],
 };
 
 function openInSandbox(e) {
@@ -58,11 +66,15 @@ function openInSandbox(e) {
           content: packageJson,
         },
 
-        "src/example.ts": {
+        "src/example.tsx": {
           content: code,
         },
 
-        "/index.html": {
+        "src/index.tsx": {
+          content: indexTsx,
+        },
+
+        "public/index.html": {
           content: '<div id="root"></div>',
         },
       },
@@ -71,7 +83,7 @@ function openInSandbox(e) {
     .then((x) => x.json())
     .then((data) => {
       window.open(
-        `https://codesandbox.io/s/${data.sandbox_id}?file=/src/example.ts`,
+        `https://codesandbox.io/s/${data.sandbox_id}?file=/src/example.tsx`,
         "_blank"
       );
     });

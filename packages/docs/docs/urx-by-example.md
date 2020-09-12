@@ -4,6 +4,8 @@ title: "urx by example"
 sidebar_label: "urx by Example"
 ---
 
+import OpenInSandbox from '../src/OpenInSandboxReact';
+
 <p className="lead">
 Before diving deeper, let's accomplish a small victory with a simple, end-to-end practical walkthrough.
 In this section, we will build an urx-based React component that sums two numbers and displays the result.
@@ -169,7 +171,6 @@ ReactDOM.render(<App />, document.getElementById("root"));
 
 And, that's it! below, you can find the complete source - open it in CodeSandbox and tweak some of it for more interactive learning.
 
-import OpenInSandbox from '../src/OpenInSandbox';
 
 <OpenInSandbox />
 
@@ -204,9 +205,9 @@ const sumSystem = system(() => {
   return { a, b, sum };
 });
 
-const { a, b, sum } = init(sys);
+const { a, b, sum } = init(sumSystem);
 
-subscribe(sumSystem, (sum) => console.log({ sum }));
+subscribe(sum, (sum) => console.log({ sum }));
 publish(a, 5);
 publish(b, 7);
 
@@ -242,7 +243,7 @@ const Input = () => {
   );
 };
 
-const App = () => {
+export default App = () => {
   const [a, setA] = useState(0);
   return (
     <div>
@@ -261,6 +262,4 @@ const App = () => {
     </div>
   );
 };
-
-ReactDOM.render(<App />, document.getElementById("root"));
 ```

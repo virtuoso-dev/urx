@@ -2,7 +2,12 @@ const typedoc = require("./sidebars").typedoc;
 
 module.exports = {
   typedoc: {
-    Introduction: ["get-started", "urx-by-example", "thinking-in-systems"],
+    Introduction: [
+      "get-started",
+      "urx-by-example",
+      "thinking-in-systems",
+      "urx-in-react",
+    ],
     "@virtuoso.dev/urx": typedoc.Modules.filter((id) =>
       /^modules\/_urx/.test(id)
     ),

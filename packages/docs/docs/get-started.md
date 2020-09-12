@@ -35,9 +35,9 @@ The section explains systems on a conceptual level and how they are applied to r
 Next, we cover the `system` factory function, how to `init` systems, 
 and how multiple systems can be organized into dependencies.
 
-## [react-urx](modules/_react_urx_src_index_)
+## [urx in React](./urx-in-react)
 
-React-urx implements `systemToComponent` function that wraps urx systems as Logic Provider React components, mapping streams to properties and hooks.
+React-urx implements `systemToComponent` function that wraps urx systems as logic provider React components, mapping streams to properties and hooks.
 
 ## urx for Redux Developers
 
