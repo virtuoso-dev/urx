@@ -72,6 +72,13 @@ export function call(proc: Proc) {
 }
 
 /**
+ * returns a function which when called, returns the passed value
+ */
+export function identity<T>(value: T) {
+  return () => value
+}
+
+/**
  * returns a function which calls all passed functions in the passed order.
  * joinProc does not pass arguments or collect return values.
  */

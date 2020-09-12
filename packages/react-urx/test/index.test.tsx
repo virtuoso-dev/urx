@@ -189,4 +189,30 @@ describe('components from system', () => {
     expect(sub).toHaveBeenCalledWith(60)
     expect(sub).toHaveBeenCalledTimes(1)
   })
+
+  it('works with function properties', () => {
+    const e = system(() => {
+      const prop = statefulStream(() => 20 as number)
+      return { prop }
+    })
+
+    const Root: FC = () => {
+      const prop = useEmitterValue('prop')
+      return <div>{prop()}</div>
+    }
+
+    const { Component: Comp, useEmitterValue } = systemToComponent(
+      e,
+      {
+        required: { prop: 'prop' },
+      },
+      Root
+    )
+
+    act(() => {
+      render(<Comp prop={() => 50} />, container)
+    })
+
+    expect(container.textContent).toBe('50')
+  })
 })

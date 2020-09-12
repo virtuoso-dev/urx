@@ -56,6 +56,7 @@ import {
   StatefulStream,
   Stream,
   subscribe,
+  identity,
 } from '@virtuoso.dev/urx'
 
 /** @internal */
@@ -242,7 +243,7 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
       }
 
       return () => {
-        Object.values(handlers).map(handler => reset(handler))
+        Object.values(handlers).map(reset)
       }
     }, [props, handlers, system])
 
@@ -279,23 +280,20 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
   const useEmitterValue = <K extends keyof S, V = S[K] extends StatefulStream<infer R> ? R : never>(key: K) => {
     const context = useContext(Context)
     const source: StatefulStream<V> = context[key]
-    const initialValue = getValue(source)
 
-    // The boxing value to { value } is because functions (and initialValue may be a callback)
-    // are treated specially when used with useState
-    const [state, setState] = useState({ value: initialValue })
+    const [value, setValue] = useState(curry1to0(getValue, source))
 
     useEffect(
       () =>
-        subscribe(source, (value: V) => {
-          if (value !== state.value) {
-            setState({ value })
+        subscribe(source, (next: V) => {
+          if (next !== value) {
+            setValue(identity(next))
           }
         }),
-      [source, state]
+      [source, value]
     )
 
-    return state.value
+    return value
   }
 
   const useEmitter = <K extends keyof S, V = S[K] extends Stream<infer R> ? R : never>(key: K, callback: (value: V) => void) => {
