@@ -39,7 +39,7 @@ export default function App() {
 
 ## Component Props to Streams
 
-`systemToComponent` accepts a [SystemSpec](/interfaces/_urx_src_system_.systemspec) and a map object, which lists the component:
+`systemToComponent` accepts a [SystemSpec](./interfaces/_urx_src_system_.systemspec) and a map object, which lists the component:
 
 - required properties
 - optional properties
