@@ -7,33 +7,36 @@ sidebar_label: "urx in React"
 import OpenInSandbox from '../src/OpenInSandboxReact';
 
 <p className="lead">
-The `@virtuoso.dev/react-urx` `systemToComponent` wraps urx systems in UI **logic provider components** by mapping the system input and output streams to the component input / output points.
+The <code>@virtuoso.dev/react-urx</code> <code>systemToComponent</code> wraps urx systems in UI <strong>logic provider components</strong> by mapping the system input and output streams to the component input/output outlets.
 </p>
-
 
 <OpenInSandbox />
 
 ```tsx
 import * as React from "react";
 import { systemToComponent } from "@virtuoso.dev/react-urx";
-import { system, statefulStream, } from "@virtuoso.dev/urx";
+import { system, statefulStream } from "@virtuoso.dev/urx";
 
 const sys = system(() => {
-  const foo = statefulStream(42)
-  return { foo }
-})
+  const foo = statefulStream(42);
+  return { foo };
+});
 
 const { Component: MyComponent, useEmitterValue } = systemToComponent(sys, {
-  required: { fooProp: 'foo' },
-})
+  required: { fooProp: "foo" },
+});
 
 const Child = () => {
-  const foo = useEmitterValue('foo')
-  return <div>{foo}</div>
-}
+  const foo = useEmitterValue("foo");
+  return <div>{foo}</div>;
+};
 
 export default function App() {
-  return <MyComponent fooProp={42}><Child /></MyComponent>
+  return (
+    <MyComponent fooProp={42}>
+      <Child />
+    </MyComponent>
+  );
 }
 ```
 
@@ -68,8 +71,7 @@ In React, this happens through the following hooks:
 
 #### Hooks Example
 
-The example below shows the three types of hooks wired up to a simple system. Press the "open in sandbox button" to fiddle with it further.
-
+The example below shows the three types of hooks wired up to a simple system. Press the "open in sandbox button" to see the example in action and tweak it further.
 
 <OpenInSandbox />
 
@@ -148,12 +150,128 @@ export default function App() {
 }
 ```
 
-### Summary
+## Specifying Root Component
 
-Reducing the various component I/O points to streams and modeling their interactions
-eases implementing complex yet resilient UI components and allows testing of the component logic outside
-the React lifecycle.
+Some React components accept a common set of HTML attributes (e.g. `id`, `style`, `aria-label`, etc.) and pass them to their root element.
+This is possible with `systemToComponent` too. Pass a react component (`React.ComponentType`) as a last argument.
+While possible, it is not recommended to accept logical properties through that mechanism - use the streams to properties mechanism instead.
 
+**Note:** Explicitly typing the Root component in the example below produces accurate prop typings for the generated component as well.
+
+<OpenInSandbox />
+
+```tsx
+import * as React from "react";
+import { systemToComponent } from "@virtuoso.dev/react-urx";
+import { system, statefulStream } from "@virtuoso.dev/urx";
+
+const sys = system(() => {
+  const foo = statefulStream(42);
+  return { foo };
+});
+
+const Root: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => {
+  const foo = useEmitterValue("foo");
+  return <div {...props}>{foo}</div>;
+};
+
+const { Component: MyComponent, useEmitterValue } = systemToComponent(
+  sys,
+  {
+    required: { fooProp: "foo" },
+  },
+  Root
+);
+
+export default function App() {
+  return <MyComponent fooProp={42} style={{ color: "red" }} />;
+}
 ```
 
+## Typed Component Refs
+
+Interacting with components with methods requires a ref to the component - correctly typing that ref can be tricky.
+The package exports `RefHandle` type for that purpose.
+
+<OpenInSandbox />
+
+```tsx
+import * as React from "react";
+import { systemToComponent, RefHandle } from "@virtuoso.dev/react-urx";
+import { system, statefulStream } from "@virtuoso.dev/urx";
+
+const sys = system(() => {
+  const foo = statefulStream(42);
+  return { foo };
+});
+
+const Root: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => {
+  const foo = useEmitterValue("foo");
+  return <div {...props}>{foo}</div>;
+};
+
+const { Component: MyComponent, useEmitterValue } = systemToComponent(
+  sys,
+  {
+    required: { fooProp: "foo" },
+    methods: { setFoo: "foo" },
+  },
+  Root
+);
+
+export default function App() {
+  const ref = React.useRef<RefHandle<typeof MyComponent>>();
+
+  return (
+    <div>
+      <button onClick={() => ref.current.setFoo(35)}>Set Foo to 35</button>
+      <MyComponent ref={ref} fooProp={42} />
+    </div>
+  );
+}
 ```
+
+## Server-Side Rendering
+
+The generated React component publishes its properties to the associated streams in an `useEffect` function body.
+This is deliberate: child components may re-render in response to the new values, causing React to throw an exception.
+However, this also means that the generated components cannot execute any logic on the server.
+
+To work-around that, specify the streams to accept properties in the body of the root component function through `ssrProps`.
+
+<OpenInSandbox />
+
+```tsx
+import * as React from "react";
+import { systemToComponent, RefHandle } from "@virtuoso.dev/react-urx";
+import { system, statefulStream } from "@virtuoso.dev/urx";
+
+const sys = system(() => {
+  const foo = statefulStream(0);
+  return { foo };
+});
+
+const Root: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => {
+  const foo = useEmitterValue("foo");
+  return <div {...props}>{foo}</div>;
+};
+
+const { Component: MyComponent, useEmitterValue } = systemToComponent(
+  sys,
+  {
+    required: { fooProp: "foo" },
+    ssrProps: ["foo"],
+  },
+  Root
+);
+
+export default function App() {
+  return <MyComponent fooProp={42} />;
+}
+```
+
+## Summary
+
+Unifying the component I/O points to streams makes it easy to implement complex but resilient React components.
+The React components remain relatively simple, while the system specifies the bulk of the logic.
+Systems are easy (and fast) to test outside of the React environment.
