@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.1.13 (2020-09-12)
+
+
+### Performance Improvements
+
+* use callbacks in setState ([63281f8](https://github.com/virtuoso-dev/urx/commit/63281f80614e070bcbfdbbb414d1566ffb83569b))
+
+
+
+
+
 ## 0.1.12 (2020-09-12)
 
 **Note:** Version bump only for package root
