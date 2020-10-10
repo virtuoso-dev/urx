@@ -1,6 +1,6 @@
 {
   "name": "@virtuoso.dev/urx-docs",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -31,8 +31,8 @@
     ]
   },
   "devDependencies": {
-    "@virtuoso.dev/react-urx": "^0.1.13",
-    "@virtuoso.dev/urx": "^0.1.13",
+    "@virtuoso.dev/react-urx": "^0.1.14",
+    "@virtuoso.dev/urx": "^0.1.14",
     "docusaurus-plugin-typedoc": "^0.3.0",
     "typedoc": "^0.19.2",
     "typedoc-plugin-markdown": "^3.0.7",
