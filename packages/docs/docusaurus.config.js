@@ -75,7 +75,6 @@ module.exports = {
 
         // Pass in any additional TypeDoc options `(see typedoc --help)`.
         name: "Documentation",
-        publicPath: "/",
         stripInternal: true,
       },
     ],

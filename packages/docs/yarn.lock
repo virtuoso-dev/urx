@@ -1797,6 +1797,10 @@
     "@types/prop-types" "*"
     csstype "^3.0.2"
 
+"@types/react@link:../react-urx/node_modules/@types/react":
+  version "0.0.0"
+  uid ""
+
 "@types/source-list-map@*":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@types/source-list-map/-/source-list-map-0.1.2.tgz#0078836063ffaf17412349bba364087e0ac02ec9"

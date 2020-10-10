@@ -17,20 +17,20 @@ to properties, methods, events, and hooks for child components.
 
 As a practical start, the section leads you through building a simple sum React component with urx backend. 
 
-## [Streams](modules/_urx_src_streams_)
+## [Streams](api/modules/_urx_src_streams_)
 
 Streams are the basic building blocks of a reactive system. Understanding their principles and the implementation provided by urx.
 
-## [Piping and Operators](modules/_urx_src_pipe_)
+## [Piping and Operators](api/modules/_urx_src_pipe_)
 
 Transforming the output of stream(s) into other streams is what most of your code will be. 
 In this section, we focus on how pipe works and what operators do.
 
-## [Transfomers](modules/_urx_src_transformers_)
+## [Transfomers](api/modules/_urx_src_transformers_)
 
 Similar to operators, transformers are utilities which operate on multiple streams. Learn how to use `combineLatest` and `merge`.
 
-## [Systems](modules/_urx_src_system_)
+## [Systems](api/modules/_urx_src_system_)
 
 The section explains systems on a conceptual level and how they are applied to real world problems. 
 Next, we cover the `system` factory function, how to `init` systems, 

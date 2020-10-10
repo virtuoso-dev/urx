@@ -31,6 +31,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react": "link:../react-urx/node_modules/@types/react",
     "@virtuoso.dev/react-urx": "^0.1.13",
     "@virtuoso.dev/urx": "^0.1.13",
     "docusaurus-plugin-typedoc": "^0.3.0",
