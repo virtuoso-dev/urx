@@ -6,6 +6,8 @@ const sidebar = {
     "urx-by-example",
     "thinking-in-systems",
     "urx-in-react",
+    "urx-vs-redux",
+    "urx-vs-rxjs",
     {
       type: "category",
       label: "@virtuoso.dev/urx",
@@ -22,5 +24,4 @@ const sidebar = {
   ],
 };
 
-console.log(sidebar);
 module.exports = sidebar;

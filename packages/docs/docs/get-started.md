@@ -40,10 +40,10 @@ and how multiple systems can be organized into dependencies.
 
 React-urx implements `systemToComponent` function that wraps urx systems as logic provider React components, mapping streams to properties and hooks.
 
-## urx for Redux Developers
+## [urx for Redux Developers](./urx-vs-redux)
 
 Spoiler alert - the two don't have much in common. This section gives a very loose mapping between the Redux concepts and the way urx works.
 
-## urx for RxJS Developers
+## [urx for RxJS Developers](./urx-vs-rxjs)
 
 Familiar with RxJS? Read this section first. This section compares the two libraries and maps common concepts from RxJS to their urx counterparts.
