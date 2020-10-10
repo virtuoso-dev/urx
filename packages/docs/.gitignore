@@ -1,6 +1,5 @@
 # Generated docs
-docs/modules/
-docs/interfaces/
+docs/api/
 # Dependencies
 /node_modules
 

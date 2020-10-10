@@ -49,7 +49,6 @@ module.exports = {
       "@docusaurus/preset-classic",
       {
         docs: {
-          homePageId: "/docs/",
           sidebarPath: require.resolve("./sidebars-with-prose.js"),
           editUrl:
             "https://github.com/virtuoso-dev/urx/edit/master/packages/docs/docs/",
@@ -73,12 +72,6 @@ module.exports = {
         // list of input files relative to docusaurus.config.js
         inputFiles: ["../urx/src/", "../react-urx/src/"],
         exclude: "../urx/src/+(index|constants).ts",
-
-        // docs directory (defaults to `docs`)
-        out: "docs/",
-
-        // Skip updating of sidebars.json (defaults to `false`).
-        skipSidebar: false,
 
         // Pass in any additional TypeDoc options `(see typedoc --help)`.
         name: "Documentation",

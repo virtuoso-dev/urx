@@ -1,19 +1,26 @@
-const typedoc = require("./sidebars").typedoc;
+const typedoc = require("./typedoc-sidebar");
 
-module.exports = {
-  typedoc: {
-    Introduction: [
-      "get-started",
-      "urx-by-example",
-      "thinking-in-systems",
-      "urx-in-react",
-    ],
-    "@virtuoso.dev/urx": typedoc.Modules.filter((id) =>
-      /^modules\/_urx/.test(id)
-    ),
-    "@virtuoso.dev/react-urx": typedoc.Modules.filter((id) =>
-      /^modules\/_react_urx/.test(id)
-    ),
-    Interfaces: typedoc.Interfaces,
-  },
+const sidebar = {
+  docs: [
+    "get-started",
+    "urx-by-example",
+    "thinking-in-systems",
+    "urx-in-react",
+    {
+      type: "category",
+      label: "@virtuoso.dev/urx",
+      items: typedoc[2].items.filter((id) => /^api\/modules\/_urx/.test(id)),
+    },
+    {
+      type: "category",
+      label: "@virtuoso.dev/react-urx",
+      items: typedoc[2].items.filter((id) =>
+        /^api\/modules\/_react_urx/.test(id)
+      ),
+    },
+    typedoc[3],
+  ],
 };
+
+console.log(sidebar);
+module.exports = sidebar;

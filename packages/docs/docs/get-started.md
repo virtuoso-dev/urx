@@ -2,6 +2,7 @@
 id: "get-started"
 title: "Get Started with urx"
 sidebar_label: "Get Started"
+slug: "/get-started"
 ---
 
 <p className="lead">
