@@ -34,7 +34,7 @@ jobs:
 
       - run: npx lerna run lint
 
-      - run: npx lerna run test -- --ci --coverage --maxWorkers=2
+      - run: npx lerna run test -- --ci 
 
       - run: npx lerna run build
 
