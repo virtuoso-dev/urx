@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.1.15 (2020-10-11)
+
+
+### Performance Improvements
+
+* use reduceRight ([46f8188](https://github.com/virtuoso-dev/urx/commit/46f818805da55b5fdf49fed2774a5eea9deb27cf))
+
+
+
+
+
 ## 0.1.14 (2020-10-10)
 
 **Note:** Version bump only for package @virtuoso.dev/urx
