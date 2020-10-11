@@ -48,10 +48,8 @@ type CombineOperatorsReturnType<I, O> = (subscriber: (value: O) => void) => (val
 
 /** @internal */
 function combineOperators<I>(...operators: Operator<any, any>[]): CombineOperatorsReturnType<I, any> {
-  const o2 = operators.slice().reverse()
-
   return (subscriber: (value: any) => void) => {
-    return o2.reduce(thrush, subscriber)
+    return operators.reduceRight(thrush, subscriber)
   }
 }
 
