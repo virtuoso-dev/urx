@@ -56,7 +56,7 @@ import {
   StatefulStream,
   Stream,
   subscribe,
-  identity,
+  always,
 } from '@virtuoso.dev/urx'
 
 /** @internal */
@@ -287,7 +287,7 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
       () =>
         subscribe(source, (next: V) => {
           if (next !== value) {
-            setValue(identity(next))
+            setValue(always(next))
           }
         }),
       [source, value]

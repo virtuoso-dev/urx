@@ -72,9 +72,9 @@ export function call(proc: Proc) {
 }
 
 /**
- * returns a function which when called, returns the passed value
+ * returns a function which when called always returns the passed value
  */
-export function identity<T>(value: T) {
+export function always<T>(value: T) {
   return () => value
 }
 
