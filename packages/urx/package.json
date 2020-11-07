@@ -1,6 +1,7 @@
 {
   "name": "@virtuoso.dev/urx",
   "private": false,
+  "sideEffects": false,
   "version": "0.1.16",
   "license": "MIT",
   "author": "Petyo Ivanov",

@@ -1,6 +1,7 @@
 {
   "version": "0.1.16",
   "private": false,
+  "sideEffects": false,
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
