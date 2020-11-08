@@ -90,7 +90,7 @@ export type Observable<T> = Emitter<T> | Publisher<T>
 
 /**
  * Describes the mapping between the system streams and the component properties.
- * Each property (except `ssrProps`) uses the keys as the names of the properties and the values as the corresponding stream names.
+ * Each property uses the keys as the names of the properties and the values as the corresponding stream names.
  * @typeParam SS the type of the system.
  */
 export interface SystemPropsMap<SS extends AnySystemSpec, K = keyof SR<SS>, D = { [key: string]: K }> {
@@ -112,13 +112,6 @@ export interface SystemPropsMap<SS extends AnySystemSpec, K = keyof SR<SS>, D = 
    * Event properties accept callback functions which get executed when the stream emits a new value.
    */
   events?: D
-  /**
-   * Specifies the streams which should get their values from props during server side rendering.
-   * By default, property values are transferred to their respective streams in an `useEffect` hook.
-   * The SSR ones will be set in the function component body.
-   * Be careful using SSR props, and use them only for "static" props. If setting an SSR prop re-renders a child component, React will throw an exception.
-   */
-  ssrProps?: K[]
 }
 
 /** @internal */
@@ -212,36 +205,37 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
       }, {} as { [key: string]: Emitter<any> })
     })
 
-    for (const ssrProp of map.ssrProps || []) {
-      if (ssrProp in props) {
-        const stream = system[ssrProp]
-        publish(stream, (props as any)[ssrProp])
-      }
-    }
-
-    useEffect(() => {
-      for (const requiredPropName of requiredPropNames.filter(value => !map.ssrProps?.includes(value))) {
+    function applyPropsToSystem() {
+      for (const requiredPropName of requiredPropNames) {
         const stream = system[map.required![requiredPropName]]
         publish(stream, (props as any)[requiredPropName])
       }
 
-      for (const optionalPropName of optionalPropNames.filter(value => !map.ssrProps?.includes(value))) {
+      for (const optionalPropName of optionalPropNames) {
         if (optionalPropName in props) {
           const stream = system[map.optional![optionalPropName]]
           publish(stream, (props as any)[optionalPropName])
         }
       }
 
+      if (system['propsReady']) {
+        publish(system['propsReady'], true)
+      }
+    }
+
+    // Detect server-side rendering and set the properties immediately
+    if (typeof document === 'undefined') {
+      applyPropsToSystem()
+    }
+
+    useEffect(applyPropsToSystem)
+
+    useEffect(() => {
       for (const eventName of eventNames) {
         if (eventName in props) {
           subscribe(handlers[eventName], props[eventName])
         }
       }
-
-      if (system['propsReady']) {
-        publish(system['propsReady'], true)
-      }
-
       return () => {
         Object.values(handlers).map(reset)
       }
