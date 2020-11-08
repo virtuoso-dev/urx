@@ -1272,7 +1272,7 @@
     semver "^7.3.2"
     tsutils "^3.17.1"
 
-"@virtuoso.dev/urx@^0.1.16":
+"@virtuoso.dev/urx@^0.1.17":
   version "0.1.17"
   resolved "https://registry.yarnpkg.com/@virtuoso.dev/urx/-/urx-0.1.17.tgz#94e3c208aed966974a2b45c51476882240486818"
   integrity sha512-miUIaFDMoQfUtzLbeGHeF0eoLAK1T/isS/aewTskU6o/isSmp7gxCj4476C/w3qNJ8yhl0HkDZHqrwwrf6yExg==
