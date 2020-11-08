@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.1.18 (2020-11-08)
+
+**Note:** Version bump only for package root
+
+
+
+
+
 ## 0.1.17 (2020-11-07)
 
 **Note:** Version bump only for package root
