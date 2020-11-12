@@ -34,7 +34,7 @@
 
 import { Emitter, StatefulStream, Stream, Subscription, Unsubscribe, subscribe, connect } from './actions'
 import { RESET, PUBLISH, SUBSCRIBE, VALUE } from './constants'
-import { tap } from './utils'
+import { tap, noop } from './utils'
 
 /**
  * Constructs a new stateless stream.
@@ -121,8 +121,12 @@ export function eventHandler<T>(emitter: Emitter<T>) {
     unsub && unsub()
     switch (action) {
       case SUBSCRIBE:
-        unsub = subscribe(emitter, subscription!)
-        return unsub
+        if (subscription) {
+          unsub = subscribe(emitter, subscription!)
+          return unsub
+        } else {
+          return noop
+        }
       case RESET:
         return
       default:

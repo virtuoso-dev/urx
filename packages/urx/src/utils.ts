@@ -87,3 +87,5 @@ export function joinProc(...procs: Proc[]) {
     procs.map(call)
   }
 }
+
+export function noop() {}

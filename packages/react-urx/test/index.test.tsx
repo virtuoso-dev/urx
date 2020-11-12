@@ -215,4 +215,29 @@ describe('components from system', () => {
 
     expect(container.textContent).toBe('50')
   })
+
+  it('accepts undefined event handlers', () => {
+    const e = system(() => {
+      const prop = statefulStream(20)
+      return { prop }
+    })
+
+    const Root: FC = () => {
+      return <div>Foo</div>
+    }
+
+    const { Component: Comp } = systemToComponent(
+      e,
+      {
+        events: { prop: 'prop' },
+      },
+      Root
+    )
+
+    act(() => {
+      expect(() => {
+        render(<Comp prop={undefined} />, container)
+      }).not.toThrow()
+    })
+  })
 })
