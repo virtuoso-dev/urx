@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.2.0 (2020-11-12)
+
+
+### Features
+
+* support falsy event handler props ([cbc134b](https://github.com/virtuoso-dev/urx/commit/cbc134b5e6f25cc2e37da536c2abc94e6f58ef3d))
+
+
+
+
+
 ## 0.1.18 (2020-11-08)
 
 **Note:** Version bump only for package @virtuoso.dev/urx
