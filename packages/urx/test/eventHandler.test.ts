@@ -1,4 +1,4 @@
-import { eventHandler, publish, reset, stream, subscribe } from '../src'
+import { eventHandler, publish, reset, stream, subscribe, statefulStream } from '../src'
 
 describe('event handler', () => {
   it('creates a single handler subscriber for a stream', () => {
@@ -24,6 +24,15 @@ describe('event handler', () => {
     reset(handler)
     publish(str, 20)
     expect(handle1).toHaveBeenCalledTimes(1)
+  })
+
+  it.only('unsubscribes the handle when reset', () => {
+    const str = statefulStream(1)
+    const handler = eventHandler(str)
+    const handle = jest.fn()
+    subscribe(handler, handle)
+    subscribe(handler, handle)
+    expect(handle).toHaveBeenCalledTimes(1)
   })
 
   it('accepts nullish handle as unsubscribe', () => {

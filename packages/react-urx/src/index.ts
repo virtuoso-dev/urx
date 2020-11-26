@@ -40,6 +40,7 @@ import {
   useEffect,
   useImperativeHandle,
   useState,
+  useCallback,
 } from 'react'
 import {
   AnySystemSpec,
@@ -265,7 +266,9 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
   })
 
   const usePublisher = <K extends keyof S>(key: K) => {
-    return curry2to1(publish, React.useContext(Context)[key]) as (value: S[K] extends Stream<infer R> ? R : never) => void
+    return useCallback(curry2to1(publish, React.useContext(Context)[key]), [key]) as (
+      value: S[K] extends Stream<infer R> ? R : never
+    ) => void
   }
 
   /**

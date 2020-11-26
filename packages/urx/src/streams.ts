@@ -98,7 +98,8 @@ export function statefulStream<T>(initial: T): StatefulStream<T> {
 }
 
 /**
- * Event handlers are special emitters which can have **at most one active subscription**. Subscribing to an event handler unsubscribes the previous subscription, if present.
+ * Event handlers are special emitters which can have **at most one active subscription**.
+ * Subscribing to an event handler unsubscribes the previous subscription, if present.
  * ```ts
  * const foo = stream<number>();
  * const fooEvent = eventHandler(foo);
@@ -116,18 +117,27 @@ export function statefulStream<T>(initial: T): StatefulStream<T> {
  */
 export function eventHandler<T>(emitter: Emitter<T>) {
   let unsub: Unsubscribe | undefined
+  let currentSubscription: any
+  let cleanup = () => unsub && unsub()
 
   return function(action: SUBSCRIBE | RESET, subscription?: Subscription<T>) {
-    unsub && unsub()
     switch (action) {
       case SUBSCRIBE:
         if (subscription) {
+          if (currentSubscription === subscription) {
+            return
+          }
+          cleanup()
+          currentSubscription = subscription
           unsub = subscribe(emitter, subscription!)
           return unsub
         } else {
+          cleanup()
           return noop
         }
       case RESET:
+        cleanup()
+        currentSubscription = null
         return
       default:
         throw new Error(`unrecognized action ${action}`)
