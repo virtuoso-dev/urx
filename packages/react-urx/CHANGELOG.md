@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.2.1 (2020-11-26)
+
+
+### Performance Improvements
+
+* optimize react event handling ([64c4f44](https://github.com/virtuoso-dev/urx/commit/64c4f44c1689b6cf3f82ab82371c530d24bbcde6))
+
+
+
+
+
 # 0.2.0 (2020-11-12)
 
 
