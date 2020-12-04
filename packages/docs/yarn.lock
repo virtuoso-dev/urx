@@ -1840,6 +1840,18 @@
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
 
+"@virtuoso.dev/react-urx@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@virtuoso.dev/react-urx/-/react-urx-0.2.1.tgz#770c82a4f7944a4fad1a0ef689f7f7dafbda1af7"
+  integrity sha512-RiRG8+lMB2mf+lxgI3p1c7I1G2uRX5A25inxlGO3EFgjPzD1oX3g6yaH7ioOjAieBb2OKmaoR+imKXNzTIuzNQ==
+  dependencies:
+    "@virtuoso.dev/urx" "^0.2.1"
+
+"@virtuoso.dev/urx@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@virtuoso.dev/urx/-/urx-0.2.1.tgz#d81d9ac2ae5e8cd24d0b4595b8131f9280b48945"
+  integrity sha512-OpaQmK4EGH+DVwIvS0zuhLQPvLb8yWzTy07iDEVGTE1GFMznRhnF+aSZeMOshllEZkRzjjzOWxLxrkPR3vOkrQ==
+
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"
@@ -5001,9 +5013,9 @@ hex-color-regex@^1.1.0:
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
 
 highlight.js@^10.2.0:
-  version "10.2.1"
-  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.2.1.tgz#09784fe2e95612abbefd510948945d4fe6fa9668"
-  integrity sha512-A+sckVPIb9zQTUydC9lpRX1qRFO/N0OKEh0NwIr65ckvWA/oMY8v9P3+kGRK3w2ULSh9E8v5MszXafodQ6039g==
+  version "10.4.1"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.4.1.tgz#d48fbcf4a9971c4361b3f95f302747afe19dbad0"
+  integrity sha512-yR5lWvNz7c85OhVAEAeFhVCc/GV4C30Fjzc/rCP0aCWzc1UUOPUk55dK/qdwTZHBvMZo+eZ2jpk62ndX/xMFlg==
 
 history@^4.9.0:
   version "4.10.1"
