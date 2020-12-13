@@ -1727,12 +1727,6 @@
     "@types/prop-types" "*"
     csstype "^3.0.2"
 
-"@types/react@file:../react-urx/node_modules/@types/react":
-  version "16.14.2"
-  dependencies:
-    "@types/prop-types" "*"
-    csstype "^3.0.2"
-
 "@types/source-list-map@*":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@types/source-list-map/-/source-list-map-0.1.2.tgz#0078836063ffaf17412349bba364087e0ac02ec9"
@@ -1775,6 +1769,18 @@
     "@types/uglify-js" "*"
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
+
+"@virtuoso.dev/react-urx@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@virtuoso.dev/react-urx/-/react-urx-0.2.1.tgz#770c82a4f7944a4fad1a0ef689f7f7dafbda1af7"
+  integrity sha512-RiRG8+lMB2mf+lxgI3p1c7I1G2uRX5A25inxlGO3EFgjPzD1oX3g6yaH7ioOjAieBb2OKmaoR+imKXNzTIuzNQ==
+  dependencies:
+    "@virtuoso.dev/urx" "^0.2.1"
+
+"@virtuoso.dev/urx@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@virtuoso.dev/urx/-/urx-0.2.1.tgz#d81d9ac2ae5e8cd24d0b4595b8131f9280b48945"
+  integrity sha512-OpaQmK4EGH+DVwIvS0zuhLQPvLb8yWzTy07iDEVGTE1GFMznRhnF+aSZeMOshllEZkRzjjzOWxLxrkPR3vOkrQ==
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
