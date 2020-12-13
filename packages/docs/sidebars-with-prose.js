@@ -4,7 +4,6 @@ const sidebar = {
   docs: [
     "get-started",
     "urx-by-example",
-    "thinking-in-systems",
     "urx-in-react",
     "urx-vs-redux",
     "urx-vs-rxjs",
