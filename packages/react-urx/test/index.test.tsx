@@ -2,7 +2,18 @@ import * as React from 'react'
 import { createRef, FC } from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { act } from 'react-dom/test-utils'
-import { connect, system, map, pipe, statefulStream, statefulStreamFromEmitter, stream } from '@virtuoso.dev/urx'
+import {
+  combineLatest,
+  connect,
+  system,
+  map,
+  pipe,
+  statefulStream,
+  statefulStreamFromEmitter,
+  stream,
+  streamFromEmitter,
+  filter,
+} from '@virtuoso.dev/urx'
 import { systemToComponent, RefHandle } from '../src'
 
 describe('components from system', () => {
@@ -239,5 +250,89 @@ describe('components from system', () => {
         render(<Comp prop={undefined} />, container)
       }).not.toThrow()
     })
+  })
+
+  it('emits changes caused by prop changes', () => {
+    const e = system(() => {
+      const prop = statefulStream(20)
+      const doubleProp = streamFromEmitter(
+        pipe(
+          prop,
+          map(value => value * 2)
+        )
+      )
+      return { prop, doubleProp }
+    })
+
+    const Root: FC = () => {
+      const value = useEmitterValue('prop')
+      return <div>{value}</div>
+    }
+
+    const { Component: Comp, useEmitterValue } = systemToComponent(
+      e,
+      {
+        required: { prop: 'prop' },
+        events: { doubleProp: 'doubleProp' },
+      },
+      Root
+    )
+
+    const sub = jest.fn()
+
+    act(() => {
+      render(<Comp prop={20} doubleProp={sub} />, container)
+    })
+
+    expect(container.textContent).toBe('20')
+    expect(sub).toHaveBeenCalledWith(40)
+    expect(sub).toHaveBeenCalledTimes(1)
+  })
+
+  it('skips setup glitches', () => {
+    const e = system(() => {
+      const prop = statefulStream(2)
+      const prop2 = statefulStream(3)
+      const propsReady = stream<boolean>()
+      const combinedProp = streamFromEmitter(
+        pipe(
+          combineLatest(prop, prop2, propsReady),
+          filter(([, , ready]) => ready),
+          map(([p, p2]) => p * p2)
+        )
+      )
+
+      return { prop, prop2, combinedProp, propsReady }
+    })
+
+    const Root: FC = () => {
+      const value = useEmitterValue('prop')
+      return <div>{value}</div>
+    }
+
+    const { Component: Comp, useEmitterValue } = systemToComponent(
+      e,
+      {
+        required: { prop: 'prop', prop2: 'prop2' },
+        events: { combinedProp: 'combinedProp' },
+      },
+      Root
+    )
+
+    const sub = jest.fn()
+
+    act(() => {
+      render(<Comp prop={3} prop2={4} combinedProp={sub} />, container)
+    })
+
+    expect(sub).toHaveBeenCalledWith(12)
+    expect(sub).toHaveBeenCalledTimes(1)
+
+    act(() => {
+      render(<Comp prop={5} prop2={6} combinedProp={sub} />, container)
+    })
+
+    expect(sub).toHaveBeenCalledWith(30)
+    expect(sub).toHaveBeenCalledTimes(2)
   })
 })

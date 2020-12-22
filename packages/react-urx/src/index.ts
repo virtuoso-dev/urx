@@ -207,6 +207,9 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
     })
 
     function applyPropsToSystem() {
+      if (system['propsReady']) {
+        publish(system['propsReady'], false)
+      }
       for (const requiredPropName of requiredPropNames) {
         const stream = system[map.required![requiredPropName]]
         publish(stream, (props as any)[requiredPropName])
@@ -229,8 +232,6 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
       applyPropsToSystem()
     }
 
-    useEffect(applyPropsToSystem)
-
     useEffect(() => {
       for (const eventName of eventNames) {
         if (eventName in props) {
@@ -241,6 +242,8 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
         Object.values(handlers).map(reset)
       }
     }, [props, handlers, system])
+
+    useEffect(applyPropsToSystem)
 
     const methodDefs = methodNames.reduce((acc, methodName) => {
       ;(acc as any)[methodName] = (value: any) => {
