@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.2.3 (2020-12-22)
+
+
+### Bug Fixes
+
+* fix event handling due to prop change ([1fbd2fc](https://github.com/virtuoso-dev/urx/commit/1fbd2fc643c63c183a4f847b6d8841bb4fc62887))
+
+
+
+
+
 ## 0.2.2 (2020-12-13)
 
 **Note:** Version bump only for package @virtuoso.dev/react-urx
