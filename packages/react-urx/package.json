@@ -52,5 +52,8 @@
   "publishConfig": {
     "access": "public"
   },
+  "browserslist": [
+    "last 1 chrome versions"
+  ],
   "gitHead": "f7ede7e8239291ea6eb032a280578f97d8cb948b"
 }

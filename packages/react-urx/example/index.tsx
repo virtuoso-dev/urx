@@ -42,8 +42,9 @@ const Input = () => {
   return (
     <div>
       <div>
-        <label>Input B value:</label>
-        <input value={b} type="number" onChange={(e) => setB(numValueFromEvent(e))} size={5} />
+        <label htmlFor="input-b">Input B value:</label>
+        <input type="number" id="input-b" name="input-b" size={5}
+               value={b} onChange={(e) => setB(numValueFromEvent(e))} />
       </div>
 
       <h4>Sum: {sum}</h4>
@@ -55,8 +56,8 @@ const App = () => {
   const [a, setA] = useState(0)
   return (
     <div>
-      <label htmlFor="points">Input A value:</label>
-      <input type="range" id="points" name="points" min="0" max="10"
+      <label htmlFor="input-a">Input A value:</label>
+      <input type="range" id="input-a" name="input-a" min="0" max="10"
              value={a} onChange={(e) => setA(numValueFromEvent(e))} />
 
       <SumComponent a={a}>
@@ -66,4 +67,4 @@ const App = () => {
   )
 }
 
-ReactDOM.render(<App />, document.body)
+ReactDOM.render(<App />, document.getElementById('app'))

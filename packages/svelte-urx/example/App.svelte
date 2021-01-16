@@ -30,14 +30,14 @@
 </script>
 
 <div>
-	<label for="points">Input A value:</label>
-	<input type="range" id="points" name="points" min="0" max="10"
+	<label for="input-a">Input A value:</label>
+	<input type="range" id="input-a" name="input-a" min="0" max="10"
 	       bind:value={$aStore} />
 </div>
 
 <div>
-	<label>Input B value:</label>
-	<input size="5" type="number"
+	<label for="input-b">Input B value:</label>
+	<input type="number" id="input-b" name="input-b" size="5"
 	       bind:value={$bStore} />
 
 	<div>
