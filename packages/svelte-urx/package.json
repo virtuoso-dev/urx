@@ -1,0 +1,56 @@
+{
+  "version": "0.2.3",
+  "private": false,
+  "sideEffects": false,
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build",
+    "example": "parcel example/index.html -d example/dist"
+  },
+  "peerDependencies": {
+    "svelte": "^3.31.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "name": "@virtuoso.dev/svelte-urx",
+  "author": "Skayo",
+  "module": "dist/svelte-urx.esm.js",
+  "dependencies": {
+    "@virtuoso.dev/urx": "^0.2.3"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^16.2.5",
+    "eslint-plugin-json": "^2.1.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.2.5",
+    "jsdom": "^16.4.0",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-svelte": "^4.0.8",
+    "svelte": "^3.31.2",
+    "tsdx": "^0.13.3",
+    "tslib": "^2.0.1",
+    "typescript": "^4.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "browserslist": [
+    "last 1 chrome versions"
+  ]
+}
