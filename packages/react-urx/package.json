@@ -17,7 +17,8 @@
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
-    "prepare": "tsdx build"
+    "prepare": "tsdx build",
+    "example": "parcel example/index.html -d example/dist"
   },
   "peerDependencies": {
     "react": ">=16"
@@ -41,6 +42,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.2.5",
     "jsdom": "^16.4.0",
+    "parcel-bundler": "^1.12.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "tsdx": "^0.13.3",
