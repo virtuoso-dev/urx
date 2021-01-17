@@ -26,7 +26,7 @@ declare type Updater<T> = (value: T) => T;
 
 /** @internal */
 interface Stores<T> {
-	[key: string]: Readable<T> | Writable<T>
+	[key: string]: Writable<T>
 }
 
 /**
