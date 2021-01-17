@@ -10,22 +10,22 @@ import {
  * @internal (from svelte/store)
  * Callback to inform of a value updates.
  */
-declare type Subscriber<T> = (value: T) => void;
+export declare type Subscriber<T> = (value: T) => void;
 
 /**
  * @internal (from svelte/store)
  * Unsubscribes from value updates.
  */
-declare type Unsubscriber = () => void;
+export declare type Unsubscriber = () => void;
 
 /**
  * @internal (from svelte/store)
  * Callback to update a value.
  */
-declare type Updater<T> = (value: T) => T;
+export declare type Updater<T> = (value: T) => T;
 
 /** @internal */
-interface Stores<T> {
+export interface Stores<T> {
 	[key: string]: Writable<T>
 }
 
