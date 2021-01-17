@@ -1,5 +1,5 @@
-import type {
-	Writable,
+import {
+	Readable, Writable,
 } from 'svelte/store';
 import {
 	AnySystemSpec, SR,
@@ -24,25 +24,33 @@ declare type Unsubscriber = () => void;
  */
 declare type Updater<T> = (value: T) => T;
 
-interface Stores {
-	[key: string]: Writable<any>
+/** @internal */
+interface Stores<T> {
+	[key: string]: Readable<T> | Writable<T>
 }
 
 /**
- * Converts a stream to a svelte store.
+ * Converts a stream to a readable svelte store.
  * @param stream The stream to convert.
- * @returns A svelte store with it's "subscribe", "update" and "set" methods
+ * @returns A readable svelte store with its "subscribe" method
  */
-export const streamToStore = <T, SS extends AnySystemSpec>(
+export const streamToReadable = <T, SS extends AnySystemSpec>(
 	stream: SR<SS>,
-) => ({
-	subscribe: (run: Subscriber<T>): Unsubscriber =>
-		           subscribe(stream, run),
+): Readable<T> => ({
+	subscribe: (run: Subscriber<T>): Unsubscriber => subscribe(stream, run)
+});
 
-	update: (updater: Updater<T>) =>
-		        publish(stream, updater(getValue(stream))),
-
-	set: (value: T) => publish(stream, value),
+/**
+ * Converts a stream to a writable svelte store.
+ * @param stream The stream to convert.
+ * @returns A writable svelte store with its "subscribe", "update" and "set" methods
+ */
+export const streamToWritable = <T, SS extends AnySystemSpec>(
+	stream: SR<SS>,
+): Writable<T> => ({
+	subscribe: streamToReadable<T, SS>(stream).subscribe,
+	update:    (updater: Updater<T>) => publish(stream, updater(getValue(stream))),
+	set:       (value: T) => publish(stream, value),
 });
 
 /**
@@ -55,8 +63,8 @@ export const systemToStores = <SS extends AnySystemSpec>(
 ) => Object
 	.entries(init(systemSpec))
 	.reduce(
-		(stores: Stores, [key, stream]) => {
-			stores[key] = streamToStore(stream);
+		(stores: Stores<any>, [key, stream]) => {
+			stores[key] = streamToWritable(stream);
 			return stores;
 		}, {},
 	);

@@ -9,7 +9,7 @@
 		// construct an emitter summing the two streams.
 		const aPlusB = pipe(
 			combineLatest(a, b),
-			map(([ a, b ]) => (a * 1) + (b * 1)), // '* 1' to convert them to integers
+			map(([ a, b ]) => a + b),
 		);
 
 		// output streams must be stateful
@@ -25,7 +25,6 @@
 	publish(a, 5);
 	publish(b, 7);
 
-	console.log(typeof sys);
 	const { a: aStore, b: bStore, sum: sumStore } = systemToStores(sys);
 </script>
 
