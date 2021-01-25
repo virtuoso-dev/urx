@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.2.4 (2021-01-25)
+
+
+### Bug Fixes
+
+* speed up initial prop propagation ([343a6f7](https://github.com/virtuoso-dev/urx/commit/343a6f7db3cdcffa31daa8439757852d8f34a9d6))
+
+
+
+
+
 ## 0.2.3 (2020-12-22)
 
 
