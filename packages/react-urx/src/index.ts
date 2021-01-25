@@ -37,7 +37,6 @@ import {
   ReactNode,
   RefAttributes,
   useContext,
-  useEffect,
   useImperativeHandle,
   useState,
   useCallback,
@@ -58,6 +57,7 @@ import {
   Stream,
   subscribe,
   always,
+  tap,
 } from '@virtuoso.dev/urx'
 
 /** @internal */
@@ -85,6 +85,8 @@ function omit<O extends Dict<any>, K extends readonly string[]>(keys: K, obj: O)
 
   return result as any
 }
+
+const useIsomorphicLayoutEffect = typeof document !== 'undefined' ? React.useLayoutEffect : React.useEffect
 
 /** @internal */
 export type Observable<T> = Emitter<T> | Publisher<T>
@@ -189,50 +191,63 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
   const Context = createContext<SR<SS>>(({} as unknown) as any)
 
   type RootCompProps = R extends ComponentType<infer RP> ? RP : { children?: ReactNode }
+
   type CompProps = PropsFromPropMap<SS, M> & RootCompProps
 
   type CompMethods = MethodsFromPropMap<SS, M>
+
+  function applyPropsToSystem(system: ReturnType<SS['constructor']>, props: any) {
+    if (system['propsReady']) {
+      publish(system['propsReady'], false)
+    }
+
+    for (const requiredPropName of requiredPropNames) {
+      const stream = system[map.required![requiredPropName]]
+      publish(stream, (props as any)[requiredPropName])
+    }
+
+    for (const optionalPropName of optionalPropNames) {
+      if (optionalPropName in props) {
+        const stream = system[map.optional![optionalPropName]]
+        publish(stream, (props as any)[optionalPropName])
+      }
+    }
+
+    if (system['propsReady']) {
+      publish(system['propsReady'], true)
+    }
+  }
+
+  function buildMethods(system: ReturnType<SS['constructor']>) {
+    return methodNames.reduce((acc, methodName) => {
+      ;(acc as any)[methodName] = (value: any) => {
+        const stream = system[map.methods![methodName]]
+        publish(stream, value)
+      }
+      return acc
+    }, {} as CompMethods)
+  }
+
+  function buildEventHandlers(system: ReturnType<SS['constructor']>) {
+    return eventNames.reduce((handlers, eventName) => {
+      handlers[eventName] = eventHandler(system[map.events![eventName]])
+      return handlers
+    }, {} as { [key: string]: Emitter<any> })
+  }
 
   /**
    * A React component generated from an urx system
    */
   const Component = forwardRef<CompMethods, CompProps>((propsWithChildren, ref) => {
     const { children, ...props } = propsWithChildren as any
-    const [system] = useState(curry1to0(init, systemSpec))
-    const [handlers] = useState(() => {
-      return eventNames.reduce((handlers, eventName) => {
-        handlers[eventName] = eventHandler(system[map.events![eventName]])
-        return handlers
-      }, {} as { [key: string]: Emitter<any> })
+
+    const [system] = useState(() => {
+      return tap(init(systemSpec), system => applyPropsToSystem(system, props))
     })
 
-    function applyPropsToSystem() {
-      if (system['propsReady']) {
-        publish(system['propsReady'], false)
-      }
-      for (const requiredPropName of requiredPropNames) {
-        const stream = system[map.required![requiredPropName]]
-        publish(stream, (props as any)[requiredPropName])
-      }
+    const [handlers] = useState(curry1to0(buildEventHandlers, system))
 
-      for (const optionalPropName of optionalPropNames) {
-        if (optionalPropName in props) {
-          const stream = system[map.optional![optionalPropName]]
-          publish(stream, (props as any)[optionalPropName])
-        }
-      }
-
-      if (system['propsReady']) {
-        publish(system['propsReady'], true)
-      }
-    }
-
-    // Detect server-side rendering and set the properties immediately
-    if (typeof document === 'undefined') {
-      applyPropsToSystem()
-    }
-
-    useEffect(() => {
+    useIsomorphicLayoutEffect(() => {
       for (const eventName of eventNames) {
         if (eventName in props) {
           subscribe(handlers[eventName], props[eventName])
@@ -243,17 +258,11 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
       }
     }, [props, handlers, system])
 
-    useEffect(applyPropsToSystem)
+    useIsomorphicLayoutEffect(() => {
+      applyPropsToSystem(system, props)
+    })
 
-    const methodDefs = methodNames.reduce((acc, methodName) => {
-      ;(acc as any)[methodName] = (value: any) => {
-        const stream = system[map.methods![methodName]]
-        publish(stream, value)
-      }
-      return acc
-    }, {} as CompMethods)
-
-    useImperativeHandle(ref, () => methodDefs)
+    useImperativeHandle(ref, always(buildMethods(system)))
 
     return createElement(
       Context.Provider,
@@ -283,7 +292,7 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
 
     const [value, setValue] = useState(curry1to0(getValue, source))
 
-    useEffect(
+    useIsomorphicLayoutEffect(
       () =>
         subscribe(source, (next: V) => {
           if (next !== value) {
@@ -299,7 +308,7 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
   const useEmitter = <K extends keyof S, V = S[K] extends Stream<infer R> ? R : never>(key: K, callback: (value: V) => void) => {
     const context = useContext(Context)
     const source: Stream<V> = context[key]
-    useEffect(() => subscribe(source, callback), [callback, source])
+    useIsomorphicLayoutEffect(() => subscribe(source, callback), [callback, source])
   }
 
   return {

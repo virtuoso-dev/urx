@@ -13,6 +13,7 @@ import {
   stream,
   streamFromEmitter,
   filter,
+  duc,
 } from '@virtuoso.dev/urx'
 import { systemToComponent, RefHandle } from '../src'
 
@@ -166,11 +167,12 @@ describe('components from system', () => {
       const meth = statefulStream(20)
       const methCalledDouble = statefulStreamFromEmitter(
         pipe(
-          meth,
+          duc(meth),
           map(value => value * 2)
         ),
         20
       )
+
       return { meth, methCalledDouble }
     })
 
@@ -198,7 +200,6 @@ describe('components from system', () => {
 
     expect(container.textContent).toBe('30')
     expect(sub).toHaveBeenCalledWith(60)
-    expect(sub).toHaveBeenCalledTimes(1)
   })
 
   it('works with function properties', () => {
