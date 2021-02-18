@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.2.5 (2021-02-18)
+
+
+### Bug Fixes
+
+* unsubs could unsubscribe another subscription ([f0ebb8a](https://github.com/virtuoso-dev/urx/commit/f0ebb8a50dbf1a1aed12a02d590d7313e178442d))
+
+
+
+
+
 ## 0.2.4 (2021-01-25)
 
 
