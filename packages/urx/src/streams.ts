@@ -55,7 +55,10 @@ export function stream<T>(): Stream<T> {
       case SUBSCRIBE:
         subscriptions.push(arg)
         return () => {
-          subscriptions.splice(subscriptions.indexOf(arg), 1)
+          const indexOf = subscriptions.indexOf(arg)
+          if (indexOf > -1) {
+            subscriptions.splice(indexOf, 1)
+          }
         }
       case PUBLISH:
         subscriptions.slice().forEach(subscription => {
