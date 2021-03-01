@@ -1770,6 +1770,18 @@
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
 
+"@virtuoso.dev/react-urx@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@virtuoso.dev/react-urx/-/react-urx-0.2.5.tgz#41f1a8c7657a339276ecf1ff718b556010c80932"
+  integrity sha512-4C0HoPaZEqAKg3pzs3mS16kesCRvEU+TYVDxFsW+vGFi1nyPovhiQ7YVTOPBE55rjVv/rkNqL1eWqjwJM/SohA==
+  dependencies:
+    "@virtuoso.dev/urx" "^0.2.5"
+
+"@virtuoso.dev/urx@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@virtuoso.dev/urx/-/urx-0.2.5.tgz#8c88e9634df06e9f6b98bcd80490652347108c86"
+  integrity sha512-Vf3g+iAl5h8UuduSRTB1XK4G08xeV80tMP46P3xn5jIk1xV5IsdTInl58VU2thnCxRG9yJawR/QJwTFfMgkUww==
+
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"
@@ -7968,9 +7980,9 @@ prism-react-renderer@^1.1.1:
   integrity sha512-MgMhSdHuHymNRqD6KM3eGS0PNqgK9q4QF5P0yoQQvpB6jNjeSAi3jcSAz0Sua/t9fa4xDOMar9HJbLa08gl9ug==
 
 prismjs@^1.22.0:
-  version "1.22.0"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.22.0.tgz#73c3400afc58a823dd7eed023f8e1ce9fd8977fa"
-  integrity sha512-lLJ/Wt9yy0AiSYBf212kK3mM5L8ycwlyTlSxHBAneXLR0nzFMlZ5y7riFPF3E33zXOF2IH95xdY5jIyZbM9z/w==
+  version "1.23.0"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.23.0.tgz#d3b3967f7d72440690497652a9d40ff046067f33"
+  integrity sha512-c29LVsqOaLbBHuIbsTxaKENh1N2EQBOHaWv7gkHN4dgRbxSREqDnDbtFJYdpPauS4YCplMSNCABQ6Eeor69bAA==
   optionalDependencies:
     clipboard "^2.0.0"
 
