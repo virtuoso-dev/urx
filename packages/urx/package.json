@@ -2,7 +2,7 @@
   "name": "@virtuoso.dev/urx",
   "private": false,
   "sideEffects": false,
-  "version": "0.2.5",
+  "version": "0.2.6",
   "license": "MIT",
   "author": "Petyo Ivanov",
   "main": "dist/index.js",
