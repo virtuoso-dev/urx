@@ -168,7 +168,7 @@ describe('components from system', () => {
       const methCalledDouble = statefulStreamFromEmitter(
         pipe(
           duc(meth),
-          map((value) => value * 2)
+          map(value => value * 2)
         ),
         20
       )
@@ -259,7 +259,7 @@ describe('components from system', () => {
       const doubleProp = streamFromEmitter(
         pipe(
           prop,
-          map((value) => value * 2)
+          map(value => value * 2)
         )
       )
       return { prop, doubleProp }
