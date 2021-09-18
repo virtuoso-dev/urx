@@ -5,7 +5,33 @@
     "pub": "lerna version --conventional-commits --yes && lerna publish from-git --yes"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.0",
+    "@types/jsdom": "^16.2.5",
+    "@types/react": "^16.9.46",
+    "@types/react-dom": "^16.9.8",
+    "@virtuoso.dev/react-urx": "^0.2.6",
+    "@virtuoso.dev/urx": "^0.2.6",
+    "docusaurus-plugin-typedoc": "^0.3.0",
     "eslint-config-react-app": "^5.2.1",
-    "lerna": "^3.22.1"
+    "eslint-plugin-json": "^2.1.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.2.5",
+    "jsdom": "^16.4.0",
+    "lerna": "^3.22.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "tsdx": "^0.13.2",
+    "tslib": "^2.0.0",
+    "typedoc": "^0.19.2",
+    "typedoc-plugin-markdown": "^3.0.7",
+    "typescript": "^3.9.5"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "@virtuoso.dev/react-urx": "file:packages/react-urx",
+    "@virtuoso.dev/urx": "file:packages/urx",
+    "@virtuoso.dev/urx-docs": "file:packages/docs"
   }
 }

@@ -23,14 +23,6 @@
       "pre-commit": "tsdx lint src test"
     }
   },
-  "devDependencies": {
-    "@types/jest": "^26.0.0",
-    "eslint-plugin-json": "^2.1.1",
-    "husky": "^4.2.5",
-    "tsdx": "^0.13.2",
-    "tslib": "^2.0.0",
-    "typescript": "^3.9.5"
-  },
   "publishConfig": {
     "access": "public"
   },

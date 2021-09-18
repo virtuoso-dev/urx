@@ -31,12 +31,8 @@
     ]
   },
   "devDependencies": {
-    "@virtuoso.dev/react-urx": "^0.2.6",
-    "@virtuoso.dev/urx": "^0.2.6",
-    "docusaurus-plugin-typedoc": "^0.3.0",
-    "typedoc": "^0.19.2",
-    "typedoc-plugin-markdown": "^3.0.7",
-    "typescript": "^3.9.5"
+    "@virtuoso.dev/react-urx": "file:../react-urx",
+    "@virtuoso.dev/urx": "file:../urx"
   },
   "resolutions": {
     "@types/react": "^16.14.2"
