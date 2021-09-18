@@ -1,6 +1,6 @@
 {
   "name": "@virtuoso.dev/urx-docs",
-  "version": "0.2.7",
+  "version": "0.2.6",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -18,14 +18,6 @@
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },
-  "devDependencies": {
-    "@virtuoso.dev/react-urx": "^0.2.6",
-    "@virtuoso.dev/urx": "^0.2.6",
-    "docusaurus-plugin-typedoc": "^0.3.0",
-    "typedoc": "^0.19.2",
-    "typedoc-plugin-markdown": "3.0.7",
-    "typescript": "^3.9.5"
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -37,6 +29,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@virtuoso.dev/react-urx": "^0.2.6",
+    "@virtuoso.dev/urx": "^0.2.6",
+    "docusaurus-plugin-typedoc": "^0.3.0",
+    "typedoc": "^0.19.2",
+    "typedoc-plugin-markdown": "^3.0.7",
+    "typescript": "^3.9.5"
   },
   "resolutions": {
     "@types/react": "^16.14.2"
