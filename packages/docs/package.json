@@ -23,7 +23,7 @@
     "@virtuoso.dev/urx": "^0.2.6",
     "docusaurus-plugin-typedoc": "^0.3.0",
     "typedoc": "^0.19.2",
-    "typedoc-plugin-markdown": "^3.0.7",
+    "typedoc-plugin-markdown": "3.0.7",
     "typescript": "^3.9.5"
   },
   "browserslist": {
