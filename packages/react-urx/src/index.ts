@@ -124,21 +124,19 @@ export type PropsFromPropMap<E extends AnySystemSpec, M extends SystemPropsMap<E
       ? R
       : never
     : never
-} &
-  {
-    [K in Extract<keyof M['optional'], string>]?: M['optional'][K] extends string
-      ? SR<E>[M['optional'][K]] extends Observable<infer R>
-        ? R
-        : never
+} & {
+  [K in Extract<keyof M['optional'], string>]?: M['optional'][K] extends string
+    ? SR<E>[M['optional'][K]] extends Observable<infer R>
+      ? R
       : never
-  } &
-  {
-    [K in Extract<keyof M['events'], string>]?: M['events'][K] extends string
-      ? SR<E>[M['events'][K]] extends Observable<infer R>
-        ? (value: R) => void
-        : never
+    : never
+} & {
+  [K in Extract<keyof M['events'], string>]?: M['events'][K] extends string
+    ? SR<E>[M['events'][K]] extends Observable<infer R>
+      ? (value: R) => void
       : never
-  }
+    : never
+}
 
 /** @internal */
 export type MethodsFromPropMap<E extends AnySystemSpec, M extends SystemPropsMap<E>> = {
@@ -188,7 +186,7 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
   const optionalPropNames = Object.keys(map.optional || {})
   const methodNames = Object.keys(map.methods || {})
   const eventNames = Object.keys(map.events || {})
-  const Context = createContext<SR<SS>>(({} as unknown) as any)
+  const Context = createContext<SR<SS>>({} as unknown as any)
 
   type RootCompProps = R extends ComponentType<infer RP> ? RP : { children?: ReactNode }
 
@@ -242,7 +240,7 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
     const { children, ...props } = propsWithChildren as any
 
     const [system] = useState(() => {
-      return tap(init(systemSpec), system => applyPropsToSystem(system, props))
+      return tap(init(systemSpec), (system) => applyPropsToSystem(system, props))
     })
 
     const [handlers] = useState(curry1to0(buildEventHandlers, system))
@@ -269,7 +267,7 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
       { value: system },
       Root
         ? createElement(
-            (Root as unknown) as ComponentType,
+            Root as unknown as ComponentType,
             omit([...requiredPropNames, ...optionalPropNames, ...eventNames], props),
             children
           )

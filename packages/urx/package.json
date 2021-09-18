@@ -11,6 +11,11 @@
   "files": [
     "dist"
   ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint src test"
+    }
+  },
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
@@ -18,13 +23,16 @@
     "lint": "tsdx lint src test",
     "prepare": "tsdx build"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint src test"
-    }
-  },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.0",
+    "eslint-plugin-json": "^2.1.1",
+    "husky": "^4.2.5",
+    "tsdx": "^0.13.2",
+    "tslib": "^2.0.0",
+    "typescript": "^3.9.5"
   },
   "gitHead": "f7ede7e8239291ea6eb032a280578f97d8cb948b"
 }
