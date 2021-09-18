@@ -1,6 +1,6 @@
 {
 	"name": "@virtuoso.dev/urx-docs",
-	"version": "0.2.6",
+	"version": "0.2.7",
 	"private": true,
 	"dependencies": {
 		"@docusaurus/core": "^2.0.0-alpha.65",
