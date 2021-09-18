@@ -31,7 +31,7 @@
   "author": "Petyo Ivanov",
   "module": "dist/react-urx.esm.js",
   "dependencies": {
-    "@virtuoso.dev/urx": "file:../urx"
+    "@virtuoso.dev/urx": "0.2.6"
   },
   "publishConfig": {
     "access": "public"
