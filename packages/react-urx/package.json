@@ -1,5 +1,5 @@
 {
-  "version": "0.2.7",
+  "version": "0.2.8",
   "private": false,
   "sideEffects": false,
   "license": "MIT",
@@ -34,7 +34,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@virtuoso.dev/urx": "^0.2.7"
+    "@virtuoso.dev/urx": "^0.2.8"
   },
   "devDependencies": {
     "@types/jsdom": "^16.2.5",
