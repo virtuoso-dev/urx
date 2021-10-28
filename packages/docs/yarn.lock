@@ -1776,18 +1776,6 @@
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
 
-"@virtuoso.dev/react-urx@^0.2.6":
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/@virtuoso.dev/react-urx/-/react-urx-0.2.7.tgz#54a32d7dcade67d89b098514026700b63a04cdbb"
-  integrity sha512-iaJ/1vz7dkfpIxEjOpgOme8X6KkUsz16RoqpFHtqbKiQW1FI+1h7YbyTxhz5D9xmg/VZU9gHpXvPHTzdKIKa3Q==
-  dependencies:
-    "@virtuoso.dev/urx" "^0.2.7"
-
-"@virtuoso.dev/urx@^0.2.6", "@virtuoso.dev/urx@^0.2.7":
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/@virtuoso.dev/urx/-/urx-0.2.7.tgz#080811a31b458819147f2875e7fe7fdefaef12dc"
-  integrity sha512-mv6V6Gzf1QnGUzb5Rwv5Eqs3DRX5R4nGIojVXtD+fAFnr2SAvpHNPMRNdAclvD/pcdiga6rTzUhFwq4FBC2MDw==
-
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"

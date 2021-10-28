@@ -1321,11 +1321,6 @@
     semver "^7.3.2"
     tsutils "^3.17.1"
 
-"@virtuoso.dev/urx@^0.2.7":
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/@virtuoso.dev/urx/-/urx-0.2.7.tgz#080811a31b458819147f2875e7fe7fdefaef12dc"
-  integrity sha512-mv6V6Gzf1QnGUzb5Rwv5Eqs3DRX5R4nGIojVXtD+fAFnr2SAvpHNPMRNdAclvD/pcdiga6rTzUhFwq4FBC2MDw==
-
 abab@^2.0.0, abab@^2.0.3, abab@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.5.tgz#c0b678fb32d60fc1219c784d6a826fe385aeb79a"
