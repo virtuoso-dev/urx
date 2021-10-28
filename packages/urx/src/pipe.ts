@@ -334,19 +334,28 @@ export function withLatestFrom<T, R1, R2, R3, R4, R5, R6, R7>( ...s: [Emitter<R1
 export function withLatestFrom(...sources: Emitter<any>[]): Operator<any, any> {
   const values = new Array(sources.length)
   let called = 0
+  let pendingCall: null | (() => void) = null
   const allCalled = Math.pow(2, sources.length) - 1
 
   sources.forEach((source, index) => {
     const bit = Math.pow(2, index)
     subscribe(source, value => {
+      let prevCalled = called
       called = called | bit
       values[index] = value
+      if (prevCalled !== allCalled && called === allCalled && pendingCall) {
+        pendingCall()
+        pendingCall = null
+      }
     })
   })
 
   return done => value => {
+    let call = () => done([value].concat(values))
     if (called === allCalled) {
-      done([value].concat(values))
+      call()
+    } else {
+      pendingCall = call
     }
   }
 }

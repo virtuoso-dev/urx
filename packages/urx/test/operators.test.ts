@@ -59,6 +59,17 @@ describe('pipe', () => {
     expect(spy).toHaveBeenCalledWith(['foo', 'bar'])
   })
 
+  it('withLatestFrom picks the values from the given sources (reverse order)', () => {
+    const s1 = stream<string>()
+    const s2 = stream<string>()
+
+    const spy = jest.fn()
+    subscribe(pipe(s1, withLatestFrom(s2)), spy)
+    publish(s1, 'foo')
+    publish(s2, 'bar')
+    expect(spy).toHaveBeenCalledWith(['foo', 'bar'])
+  })
+
   it('mapTo swaps to the value', () => {
     const foo = statefulStream('foo')
     const spy = jest.fn()
