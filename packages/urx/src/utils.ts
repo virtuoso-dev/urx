@@ -9,9 +9,7 @@
  */
 
 /** @internal */
-export interface Proc {
-  (): any
-}
+export type Proc = () => any
 
 /**
  * Performs left to right composition of two functions.
@@ -60,13 +58,14 @@ export function tap<T>(arg: T, proc: (arg: T) => any): T {
  *  Utility function to help typescript figure out that what we pass is a tuple and not a generic array.
  *  Taken from (this StackOverflow tread)[https://stackoverflow.com/questions/49729550/implicitly-create-a-tuple-in-typescript/52445008#52445008]
  */
-export function tup<T extends Array<any>>(...args: T): T {
+export function tup<T extends any[]>(...args: T): T {
   return args
 }
 
 /**
  * Calls the passed function.
  */
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function call(proc: Proc) {
   proc()
 }
@@ -88,4 +87,5 @@ export function joinProc(...procs: Proc[]) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function noop() {}

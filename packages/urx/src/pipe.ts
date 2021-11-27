@@ -39,15 +39,14 @@ import { SUBSCRIBE, RESET } from './constants'
  * publish(foo, 42)
  * ```
  */
-export interface Operator<Input, Output = Input> {
-  (done: (value: Output) => void): (value: Input) => void
-}
+
+export type Operator<Input, Output = Input> = (done: (value: Output) => void) => (value: Input) => void
 
 /** @internal */
 type CombineOperatorsReturnType<I, O> = (subscriber: (value: O) => void) => (value: I) => void
 
 /** @internal */
-function combineOperators<I>(...operators: Operator<any, any>[]): CombineOperatorsReturnType<I, any> {
+function combineOperators<I>(...operators: Array<Operator<any, any>>): CombineOperatorsReturnType<I, any> {
   return (subscriber: (value: any) => void) => {
     return operators.reduceRight(thrush, subscriber)
   }
@@ -81,7 +80,7 @@ export function pipe<T, O1, O2, O3, O4>(s: Emitter<T>, ...o: [O<T, O1>, O<O1, O2
 export function pipe<T, O1, O2, O3, O4, O5>(s: Emitter<T>, ...o: [O<T, O1>, O<O1, O2>, O<O2, O3>, O<O3, O4>, O<O4, O5>]): Emitter<O5> // prettier-ignore
 export function pipe<T, O1, O2, O3, O4, O5, O6>(s: Emitter<T>, ...o: [O<T, O1>, O<O1, O2>, O<O2, O3>, O<O3, O4>, O<O4, O5>, O<O5, O6>]): Emitter<O6> // prettier-ignore
 export function pipe<T, O1, O2, O3, O4, O5, O6, O7>(s: Emitter<T>, ...o: [O<T, O1>, O<O1, O2>, O<O2, O3>, O<O3, O4>, O<O4, O5>, O<O5, O6>, O<O6, O7>]): Emitter<O7> // prettier-ignore
-export function pipe<T>(source: Emitter<T>, ...operators: O<any, any>[]): Emitter<any> {
+export function pipe<T>(source: Emitter<T>, ...operators: Array<O<any, any>>): Emitter<any> {
   // prettier-ignore
   const project = combineOperators(...operators)
   return ((action: SUBSCRIBE | RESET, subscription: Subscription<any>) => {
@@ -92,6 +91,7 @@ export function pipe<T>(source: Emitter<T>, ...operators: O<any, any>[]): Emitte
         reset(source)
         return
       default:
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         throw new Error(`unrecognized action ${action}`)
     }
   }) as Emitter<any>
@@ -102,9 +102,7 @@ export function pipe<T>(source: Emitter<T>, ...operators: O<any, any>[]): Emitte
  * Implement custom comparators when [[distinctUntilChanged]] needs to work on non-primitive objects.
  * @returns true if values should be considered equal.
  */
-export interface Comparator<T> {
-  (previous: T, next: T): boolean
-}
+export type Comparator<T> = (previous: T, next: T) => boolean
 
 /**
  * The default [[Comparator]] for [[distinctUntilChanged]] and [[duc]].
@@ -254,12 +252,12 @@ export function skip<T>(times: number): Operator<T> {
  */
 export function throttleTime<T>(interval: number): Operator<T> {
   let currentValue: T | undefined
-  let timeout: any
+  let timeout: ReturnType<typeof setTimeout> | undefined
 
   return done => value => {
     currentValue = value
 
-    if (timeout) {
+    if (timeout === undefined) {
       return
     }
 
@@ -288,15 +286,16 @@ export function throttleTime<T>(interval: number): Operator<T> {
  */
 export function debounceTime<T>(interval: number): Operator<T> {
   let currentValue: T | undefined
-  let timeout: any
+  let timeout: ReturnType<typeof setTimeout> | undefined
 
   return done => value => {
     currentValue = value
-    if (timeout) {
+    if (timeout != null) {
       clearTimeout(timeout)
     }
 
     timeout = setTimeout(() => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       done(currentValue!)
     }, interval)
   }
@@ -331,7 +330,7 @@ export function withLatestFrom<T, R1, R2, R3, R4>( ...s: [Emitter<R1>, Emitter<R
 export function withLatestFrom<T, R1, R2, R3, R4, R5>( ...s: [Emitter<R1>, Emitter<R2>, Emitter<R3>, Emitter<R4>, Emitter<R5>]): Operator<T, [T, R1, R2, R3, R4, R5]> // prettier-ignore
 export function withLatestFrom<T, R1, R2, R3, R4, R5, R6>( ...s: [Emitter<R1>, Emitter<R2>, Emitter<R3>, Emitter<R4>, Emitter<R5>, Emitter<R6>]): Operator<T, [T, R1, R2, R3, R4, R5, R6]> // prettier-ignore
 export function withLatestFrom<T, R1, R2, R3, R4, R5, R6, R7>( ...s: [Emitter<R1>, Emitter<R2>, Emitter<R3>, Emitter<R4>, Emitter<R5>, Emitter<R6>, Emitter<R7>]): Operator<T, [T, R1, R2, R3, R4, R5, R6, R7]> // prettier-ignore
-export function withLatestFrom(...sources: Emitter<any>[]): Operator<any, any> {
+export function withLatestFrom(...sources: Array<Emitter<any>>): Operator<any, any> {
   const values = new Array(sources.length)
   let called = 0
   let pendingCall: null | (() => void) = null
@@ -340,10 +339,10 @@ export function withLatestFrom(...sources: Emitter<any>[]): Operator<any, any> {
   sources.forEach((source, index) => {
     const bit = Math.pow(2, index)
     subscribe(source, value => {
-      let prevCalled = called
+      const prevCalled = called
       called = called | bit
       values[index] = value
-      if (prevCalled !== allCalled && called === allCalled && pendingCall) {
+      if (prevCalled !== allCalled && called === allCalled && pendingCall != null) {
         pendingCall()
         pendingCall = null
       }
@@ -351,7 +350,7 @@ export function withLatestFrom(...sources: Emitter<any>[]): Operator<any, any> {
   })
 
   return done => value => {
-    let call = () => done([value].concat(values))
+    const call = () => done([value].concat(values))
     if (called === allCalled) {
       call()
     } else {

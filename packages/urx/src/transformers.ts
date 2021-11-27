@@ -22,7 +22,7 @@ import { joinProc } from './utils'
  * publish(bar, 43)
  * ```
  */
-export function merge<T>(...sources: Emitter<T>[]): Emitter<T> {
+export function merge<T>(...sources: Array<Emitter<T>>): Emitter<T> {
   return function(action: SUBSCRIBE | RESET, subscription?: Subscription<any>) {
     switch (action) {
       case SUBSCRIBE:
@@ -89,8 +89,8 @@ export function combineLatest<O1, O2, O3, O4, O5, O6, O7, O8>( ...emitters: [Emi
 export function combineLatest<O1, O2, O3, O4, O5, O6, O7, O8, O9>( ...emitters: [Emitter<O1>, Emitter<O2>, Emitter<O3>, Emitter<O4>, Emitter<O5>, Emitter<O6>, Emitter<O7>, Emitter<O8>, Emitter<O9>]): Emitter<[O1, O2, O3, O4, O5, O6, O7, O8, O9]> // prettier-ignore
 export function combineLatest<O1, O2, O3, O4, O5, O6, O7, O8, O9, O10>( ...emitters: [Emitter<O1>, Emitter<O2>, Emitter<O3>, Emitter<O4>, Emitter<O5>, Emitter<O6>, Emitter<O7>, Emitter<O8>, Emitter<O9>, Emitter<O10>]): Emitter<[O1, O2, O3, O4, O5, O6, O7, O8, O9, O10]> // prettier-ignore
 export function combineLatest<O1, O2, O3, O4, O5, O6, O7, O8, O9, O10, O11>( ...emitters: [Emitter<O1>, Emitter<O2>, Emitter<O3>, Emitter<O4>, Emitter<O5>, Emitter<O6>, Emitter<O7>, Emitter<O8>, Emitter<O9>, Emitter<O10>, Emitter<O11>]): Emitter<[O1, O2, O3, O4, O5, O6, O7, O8, O9, O10, O11]> // prettier-ignore
-export function combineLatest(...emitters: Emitter<any>[]): Emitter<any> {
-  let innerSubject = stream<any>()
+export function combineLatest(...emitters: Array<Emitter<any>>): Emitter<any> {
+  const innerSubject = stream<any>()
   const values = new Array(emitters.length)
   let called = 0
   const allCalled = Math.pow(2, emitters.length) - 1
@@ -116,6 +116,7 @@ export function combineLatest(...emitters: Emitter<any>[]): Emitter<any> {
       case RESET:
         return reset(innerSubject)
       default:
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         throw new Error(`unrecognized action ${action}`)
     }
   } as Emitter<any>

@@ -1,38 +1,50 @@
 {
   "name": "@virtuoso.dev/urx",
-  "private": false,
   "sideEffects": false,
+  "private": false,
+  "source": "src/index.ts",
+  "type": "module",
+  "exports": {
+    "require": "./dist/index.cjs",
+    "default": "./dist/index.esm.js"
+  },
   "version": "0.2.8",
   "license": "MIT",
   "author": "Petyo Ivanov",
-  "main": "dist/index.js",
-  "module": "dist/urx.esm.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint src test"
-    }
-  },
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test",
-    "lint": "tsdx lint src test",
-    "prepare": "tsdx build"
+    "start": "microbundle watch --raw --no-sourcemap --strict --no-compress --format=cjs,esm",
+    "build": "microbundle --strict --format=cjs,esm src/index.ts",
+    "test": "jest --passWithNoTests",
+    "lint": "eslint src test --ext .ts",
+    "typecheck": "tsc --noEmit",
+    "prepare": "yarn build"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
     "@types/jest": "^26.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "eslint": "7",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard-with-typescript": "^21.0.1",
+    "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-json": "^2.1.1",
-    "husky": "^4.2.5",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.1",
+    "jest": "^27.3.1",
+    "microbundle": "^0.14.2",
+    "ts-jest": "^27.0.7",
     "tsdx": "^0.13.2",
     "tslib": "^2.0.0",
-    "typescript": "^3.9.5"
+    "typescript": "^4.5.2"
   },
   "gitHead": "f7ede7e8239291ea6eb032a280578f97d8cb948b"
 }
