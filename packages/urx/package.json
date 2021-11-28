@@ -8,7 +8,7 @@
     "require": "./dist/index.cjs",
     "default": "./dist/index.esm.js"
   },
-  "version": "0.2.8",
+  "version": "0.2.9",
   "license": "MIT",
   "author": "Petyo Ivanov",
   "main": "dist/index.cjs",
