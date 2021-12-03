@@ -9,6 +9,7 @@
     "default": "./dist/index.esm.js"
   },
   "version": "0.2.9",
+  "homepage": "https://urx.virtuoso.dev/",
   "license": "MIT",
   "author": "Petyo Ivanov",
   "main": "dist/index.cjs",
@@ -46,5 +47,10 @@
     "tslib": "^2.0.0",
     "typescript": "^4.5.2"
   },
-  "gitHead": "f7ede7e8239291ea6eb032a280578f97d8cb948b"
+  "gitHead": "f7ede7e8239291ea6eb032a280578f97d8cb948b",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/virtuoso-dev/urx.git",
+    "directory": "packages/urx"
+  }
 }
