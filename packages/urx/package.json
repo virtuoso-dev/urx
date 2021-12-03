@@ -8,7 +8,7 @@
     "require": "./dist/index.cjs",
     "default": "./dist/index.esm.js"
   },
-  "version": "0.2.9",
+  "version": "0.2.10",
   "homepage": "https://urx.virtuoso.dev/",
   "license": "MIT",
   "author": "Petyo Ivanov",
