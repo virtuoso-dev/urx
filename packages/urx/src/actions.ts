@@ -9,8 +9,10 @@ import { curry2to1 } from './utils'
  * A Publisher is the **input end** of a Stream. The [[publish]] action publishes values in publishers.
  * @typeParam T the type of values to be published.
  */
-/** @internal */
-export type Publisher<T> = (action: PUBLISH, value: T) => void
+export interface Publisher<T> {
+  /** @internal */
+  (action: PUBLISH, value: T): void
+}
 
 /**
  * An Emitter is the **output end** of a Stream. The [[subscribe]] action binds {@link Subscription | subscriptions} to emitters.
@@ -27,12 +29,16 @@ export interface Emitter<T> {
  * Subscriptions are bound to Emitters with the [[subscribe]] action, and get called with the new values.
  * @typeParam T the Emitter value type.
  */
-export type Subscription<T> = (value: T) => any
+export interface Subscription<T> {
+  (value: T): any
+}
 
 /**
  * Subscribe-like actions return unsubscribe handles of the Unsubscribe type, which, when called, unbind the subscription.
  */
-export type Unsubscribe = () => void
+export interface Unsubscribe {
+  (): void
+}
 
 /**
  * Streams present both the input and the output ends of a stream.

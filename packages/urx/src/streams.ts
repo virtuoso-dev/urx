@@ -45,7 +45,7 @@ import { tap, noop } from './utils'
  * @returns a [[Stream]]
  */
 export function stream<T>(): Stream<T> {
-  const subscriptions = [] as Array<Subscription<T>>
+  const subscriptions = [] as Subscription<T>[]
 
   return ((action: PUBLISH | SUBSCRIBE | RESET, arg: any) => {
     switch (action) {
@@ -66,7 +66,6 @@ export function stream<T>(): Stream<T> {
         })
         return
       default:
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         throw new Error(`unrecognized action ${action}`)
     }
   }) as Stream<T>
@@ -88,7 +87,8 @@ export function statefulStream<T>(initial: T): StatefulStream<T> {
   return ((action: PUBLISH | SUBSCRIBE | RESET | VALUE, arg: any) => {
     switch (action) {
       case SUBSCRIBE:
-        ;(arg as Subscription<T>)(value)
+        const subscription = arg as Subscription<T>
+        subscription(value)
         break
       case PUBLISH:
         value = arg as T
@@ -121,18 +121,18 @@ export function statefulStream<T>(initial: T): StatefulStream<T> {
 export function eventHandler<T>(emitter: Emitter<T>) {
   let unsub: Unsubscribe | undefined
   let currentSubscription: any
-  const cleanup = () => unsub?.()
+  let cleanup = () => unsub && unsub()
 
   return function(action: SUBSCRIBE | RESET, subscription?: Subscription<T>) {
     switch (action) {
       case SUBSCRIBE:
-        if (subscription != null) {
+        if (subscription) {
           if (currentSubscription === subscription) {
             return
           }
           cleanup()
           currentSubscription = subscription
-          unsub = subscribe(emitter, subscription)
+          unsub = subscribe(emitter, subscription!)
           return unsub
         } else {
           cleanup()
@@ -143,7 +143,6 @@ export function eventHandler<T>(emitter: Emitter<T>) {
         currentSubscription = null
         return
       default:
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         throw new Error(`unrecognized action ${action}`)
     }
   } as Emitter<T>

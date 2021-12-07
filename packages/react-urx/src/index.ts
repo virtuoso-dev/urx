@@ -67,18 +67,18 @@ interface Dict<T> {
 
 /** @internal */
 function omit<O extends Dict<any>, K extends readonly string[]>(keys: K, obj: O): Omit<O, K[number]> {
-  const result: Dict<any> = {}
-  const index: Dict<1> = {}
-  let idx = 0
-  const len = keys.length
+  var result = {} as Dict<any>
+  var index = {} as Dict<1>
+  var idx = 0
+  var len = keys.length
 
   while (idx < len) {
     index[keys[idx]] = 1
     idx += 1
   }
 
-  for (const prop in obj) {
-    if (!Object.prototype.hasOwnProperty.call(index, prop)) {
+  for (var prop in obj) {
+    if (!index.hasOwnProperty(prop)) {
       result[prop] = obj[prop]
     }
   }
@@ -184,10 +184,10 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
   map: M,
   Root?: R
 ) {
-  const requiredPropNames = Object.keys(map.required ?? {})
-  const optionalPropNames = Object.keys(map.optional ?? {})
-  const methodNames = Object.keys(map.methods ?? {})
-  const eventNames = Object.keys(map.events ?? {})
+  const requiredPropNames = Object.keys(map.required || {})
+  const optionalPropNames = Object.keys(map.optional || {})
+  const methodNames = Object.keys(map.methods || {})
+  const eventNames = Object.keys(map.events || {})
   const Context = createContext<SR<SS>>(({} as unknown) as any)
 
   type RootCompProps = R extends ComponentType<infer RP> ? RP : { children?: ReactNode }
@@ -197,26 +197,24 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
   type CompMethods = MethodsFromPropMap<SS, M>
 
   function applyPropsToSystem(system: ReturnType<SS['constructor']>, props: any) {
-    if (system.propsReady !== undefined) {
-      publish(system.propsReady, false)
+    if (system['propsReady']) {
+      publish(system['propsReady'], false)
     }
 
-    for (let index = 0; index < requiredPropNames.length; index++) {
-      const requiredPropName = requiredPropNames[index]
+    for (const requiredPropName of requiredPropNames) {
       const stream = system[map.required![requiredPropName]]
-      publish(stream, props[requiredPropName])
+      publish(stream, (props as any)[requiredPropName])
     }
 
-    for (let index = 0; index < optionalPropNames.length; index++) {
-      const optionalPropName = optionalPropNames[index]
+    for (const optionalPropName of optionalPropNames) {
       if (optionalPropName in props) {
         const stream = system[map.optional![optionalPropName]]
-        publish(stream, props[optionalPropName])
+        publish(stream, (props as any)[optionalPropName])
       }
     }
 
-    if (system.propsReady !== undefined) {
-      publish(system.propsReady, true)
+    if (system['propsReady']) {
+      publish(system['propsReady'], true)
     }
   }
 
@@ -227,15 +225,14 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
         publish(stream, value)
       }
       return acc
-      // eslint-disable-next-line
     }, {} as CompMethods)
   }
 
   function buildEventHandlers(system: ReturnType<SS['constructor']>) {
-    return eventNames.reduce<{ [key: string]: Emitter<any> }>((handlers, eventName) => {
+    return eventNames.reduce((handlers, eventName) => {
       handlers[eventName] = eventHandler(system[map.events![eventName]])
       return handlers
-    }, {})
+    }, {} as { [key: string]: Emitter<any> })
   }
 
   /**
@@ -251,13 +248,11 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
     const [handlers] = useState(curry1to0(buildEventHandlers, system))
 
     useIsomorphicLayoutEffect(() => {
-      for (let index = 0; index < eventNames.length; index++) {
-        const eventName = eventNames[index]
+      for (const eventName of eventNames) {
         if (eventName in props) {
           subscribe(handlers[eventName], props[eventName])
         }
       }
-
       return () => {
         Object.values(handlers).map(reset)
       }
@@ -272,7 +267,7 @@ export function systemToComponent<SS extends AnySystemSpec, M extends SystemProp
     return createElement(
       Context.Provider,
       { value: system },
-      Root !== undefined
+      Root
         ? createElement(
             (Root as unknown) as ComponentType,
             omit([...requiredPropNames, ...optionalPropNames, ...eventNames], props),

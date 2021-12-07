@@ -37,7 +37,7 @@ describe('pipe', () => {
     subscribe(
       pipe(
         foo,
-        filter(value => value % 2 === 0)
+        filter(value => !(value % 2))
       ),
       spy
     )
@@ -80,7 +80,7 @@ describe('pipe', () => {
   it('scan passes previous value', () => {
     const s1 = statefulStream(3)
 
-    const scanner = jest.fn((current: number, next: number) => current + next)
+    const scanner = jest.fn((current, next) => current + next)
     const spy = jest.fn()
 
     subscribe(pipe(s1, scan(scanner, 2)), spy)
