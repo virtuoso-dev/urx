@@ -1,15 +1,7 @@
 {
-  "name": "@virtuoso.dev/react-urx",
-  "sideEffects": false,
-  "private": false,
-  "source": "src/index.ts",
-  "type": "module",
-  "exports": {
-    "require": "./dist/index.cjs",
-    "default": "./dist/index.esm.js"
-  },
   "version": "0.2.11",
-  "homepage": "https://urx.virtuoso.dev/",
+  "private": false,
+  "sideEffects": false,
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -35,6 +27,7 @@
       "pre-commit": "tsdx lint"
     }
   },
+  "name": "@virtuoso.dev/react-urx",
   "author": "Petyo Ivanov",
   "module": "dist/react-urx.esm.js",
   "publishConfig": {
@@ -58,6 +51,8 @@
     "typescript": "^4.0.2"
   },
   "gitHead": "f7ede7e8239291ea6eb032a280578f97d8cb948b",
+  "source": "src/index.ts",
+  "homepage": "https://urx.virtuoso.dev/",
   "repository": {
     "type": "git",
     "url": "https://github.com/virtuoso-dev/urx.git",
