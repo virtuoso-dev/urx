@@ -2677,6 +2677,11 @@
     "@typescript-eslint/types" "5.4.0"
     eslint-visitor-keys "^3.0.0"
 
+"@virtuoso.dev/urx@^0.2.8":
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/@virtuoso.dev/urx/-/urx-0.2.8.tgz#182884939b2a5420839c48e317059cf265210f84"
+  integrity sha512-40uiTn5z1J/7at9Ao/aesyFhE7sS1cpb2MrbP/JSS6dcLMsQJcAZGedCY3bKkyjANH9DX/ciUpkpmT3TXmUBOQ==
+
 abab@^2.0.0, abab@^2.0.3, abab@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.5.tgz#c0b678fb32d60fc1219c784d6a826fe385aeb79a"
