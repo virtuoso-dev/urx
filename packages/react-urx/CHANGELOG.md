@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.2.11 (2021-12-07)
+
+
+### Bug Fixes
+
+* revert to tsdx ([de40104](https://github.com/virtuoso-dev/urx/commit/de40104329debcba32c3cefec73ce1ff8b9a1bae))
+
+
+
+
+
 ## 0.2.10 (2021-12-03)
 
 **Note:** Version bump only for package @virtuoso.dev/react-urx
