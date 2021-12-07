@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.2.12 (2021-12-07)
+
+
+### Bug Fixes
+
+* remove leftovers ([d702ead](https://github.com/virtuoso-dev/urx/commit/d702ead6e4fb6216ba270176d593751975527fc2))
+
+
+
+
+
 ## 0.2.11 (2021-12-07)
 
 
