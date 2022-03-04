@@ -33,7 +33,7 @@ publish(myStream, 2)
 Streams are either **stateless** or **stateful**. Stateless streams pass the data to existing subscriptions when published. Stateful streams remember the last published value and immediately publish it to new subscriptions.
 
 ```ts
-import { stream, publish, subscribe } from 'urx'
+import { statefulStream, publish, subscribe } from 'urx'
 // stateful streams always start with an initial value
 const myStatefulStream = statefulStream(2)
 
