@@ -126,3 +126,39 @@ describe('pipe', () => {
     expect(spy).toHaveBeenCalledTimes(3)
   })
 })
+
+it('debounce does not leak', done => {
+  const a = statefulStream(0)
+
+  const i = setInterval(() => {
+    publish(a, 1)
+  }, 50)
+
+  // let's try to clog the queue
+  const OPS = 10000
+  let ops = 0
+  const ii = setInterval(() => {
+    ops++
+    Array.from({ length: OPS }, () => Math.random())
+      .map(k => k * 2)
+      .join(',')
+      .split(',')
+      .join(',')
+  }, 10)
+
+  // this should never happen,
+  // because `a` consistently publishes, thus delaying
+  // the publish
+  subscribe(pipe(a, debounceTime(100)), () => {
+    clearInterval(i)
+    clearInterval(ii)
+    done.fail(new Error('debounce leaked'))
+  })
+
+  setTimeout(() => {
+    console.log('ops count', ops)
+    clearInterval(i)
+    clearInterval(ii)
+    done()
+  }, 4000)
+})
